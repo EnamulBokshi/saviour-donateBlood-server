@@ -4,6 +4,7 @@ import {prismaAdapter} from "better-auth/adapters/prisma";
 import prisma from "../config/prisma";
 import { UserRole, UserStatus } from "../generated/prisma/browser";
 import { bearer, emailOTP, oAuthProxy } from "better-auth/plugins";
+import { sendEmail } from "../utils/email";
 
 const isProduction = envVar.ENV_MODE === "production";
 const cookieSameSite = isProduction ? "none":"lax"
@@ -71,11 +72,29 @@ export const auth = betterAuth({
         emailOTP({
             overrideDefaultEmailVerification: true,
             async sendVerificationOTP({email, otp, type}) {
-                // const user = await prisma.user.findUnique({where: {email}});
-                // if(!user) return;
+                const user = await prisma.user.findUnique({
+                    where: {
+                        email,
+                    },
+                });
 
-                // send otp to email using nodemailer or any other email service provider
-                console.log(`Sending OTP ${otp} to email ${email} for ${type}`);
+                const isPasswordReset = type !== "email-verification";
+                const template = isPasswordReset ? "forget-password-otp" : "otp-verification";
+                const subject = isPasswordReset
+                    ? "Saviour password reset code"
+                    : "Verify your email - Saviour";
+
+                await sendEmail({
+                    to: email,
+                    subject,
+                    template,
+                    templateData: {
+                        name: user?.name,
+                        otp,
+                        type,
+                        expiresIn: "10 minutes",
+                    },
+                });
             }
         })
     ],

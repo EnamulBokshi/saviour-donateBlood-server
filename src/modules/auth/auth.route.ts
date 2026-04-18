@@ -1,0 +1,68 @@
+import { Router } from "express";
+import { AuthController } from "./auth.controller.js";
+import authCheck from "../../middleware/authCheck";
+import { multerUpload } from "../../config/multerConfig";
+import { UserRole } from "../../generated/prisma/enums";
+import requestValidator from "../../middleware/requestValidator";
+import { AuthValidation } from "./auth.validation";
+
+const router = Router();
+
+
+router.post(
+	"/sign-up/email",
+	multerUpload.single("image"),
+	requestValidator(AuthValidation.registerUserValidationSchema),
+	AuthController.registerUser,
+);
+router.post(
+	"/sign-in/email",
+	requestValidator(AuthValidation.loginValidationSchema),
+	AuthController.loginUser,
+);
+router.get("/me", authCheck(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.USER, UserRole.DONOR), AuthController.getMe);
+router.post(
+	"/refresh-token",
+	requestValidator(AuthValidation.refreshTokenValidationSchema),
+	AuthController.getNewToken,
+);
+router.get("/refresh-token", AuthController.getNewToken);
+router.post(
+	"/change-password",
+	authCheck(UserRole.ADMIN, UserRole.USER, UserRole.SUPER_ADMIN, UserRole.DONOR),
+	requestValidator(AuthValidation.changePasswordValidationSchema),
+	AuthController.changePassword,
+);
+router.post("/logout", authCheck(UserRole.ADMIN, UserRole.USER, UserRole.SUPER_ADMIN, UserRole.DONOR), AuthController.logoutUser);
+router.post(
+	"/verify-email",
+	requestValidator(AuthValidation.verifyEmailValidationSchema),
+	AuthController.verifyEmail,
+);
+router.post(
+	"/resend-otp",
+	requestValidator(AuthValidation.emailOnlyValidationSchema),
+	AuthController.resendOtp,
+);
+router.post(
+	"/forget-password",
+	requestValidator(AuthValidation.emailOnlyValidationSchema),
+	AuthController.forgetPassword,
+);
+router.post(
+	"/reset-password",
+	requestValidator(AuthValidation.resetPasswordValidationSchema),
+	AuthController.resetPassword,
+);
+router.patch(
+	"/profile-image",
+	authCheck(UserRole.ADMIN, UserRole.USER, UserRole.SUPER_ADMIN, UserRole.DONOR),
+	multerUpload.single("image"),
+	AuthController.updateProfileImage,
+);
+
+
+// router.get("/login/google", AuthController.googleSignIn);
+// router.get("/google/success", AuthController.googleSignInSuccess);
+// router.get("/google/failure", AuthController.googleSignInFailure);
+export const AuthRoute = router;

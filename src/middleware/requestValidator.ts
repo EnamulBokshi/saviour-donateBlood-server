@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import z from "zod";
 
-const requestValidator = (zodSchema: z.ZodObject) => {
+const requestValidator = (zodSchema: z.ZodTypeAny) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     console.log("Received request with data:", req.body);
 

@@ -2,8 +2,11 @@ import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import qs from 'qs';
 import path from 'node:path';
+import cookieParser from 'cookie-parser';
 import { envVar } from './config/envVar';
 import indexRouter from './route';
+import { NotFoundMiddleware } from './middleware/notFound';
+import { globalErrorHandler } from './middleware/globalErrorHandler';
 
 const app:Application = express();
 
@@ -18,6 +21,7 @@ app.use(cors({
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
 }));
 app.use(express.json());
+app.use(cookieParser());
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -35,6 +39,9 @@ app.get("/health", (req: Request, res: Response) => {
 })
 
 app.use("/api/v1", indexRouter);
+
+app.use(NotFoundMiddleware);
+app.use(globalErrorHandler);
 
 
 

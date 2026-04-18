@@ -1,0 +1,37 @@
+import express from 'express';
+import cors from 'cors';
+import qs from 'qs';
+import path from 'node:path';
+import cookieParser from 'cookie-parser';
+import { envVar } from './config/envVar';
+import indexRouter from './route';
+import { NotFoundMiddleware } from './middleware/notFound';
+import { globalErrorHandler } from './middleware/globalErrorHandler';
+const app = express();
+app.set("query parser", (str) => qs.parse(str));
+app.set("view engine", "ejs");
+app.set("views", path.join(process.cwd(), "src/views"));
+app.use(cors({
+    origin: [envVar.frontendURL, envVar.backendURL, envVar.BETTER_AUTH_URL, "http://localhost:3000", "http://localhost:5000"],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
+}));
+app.use(express.json());
+app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+// routes
+app.get("/health", (req, res) => {
+    res.status(200).json({ message: "Server is healthy",
+        request: {
+            method: req.method,
+            url: req.url,
+            ip: req.ip,
+        }
+    });
+});
+app.use("/api/v1", indexRouter);
+app.use(NotFoundMiddleware);
+app.use(globalErrorHandler);
+export default app;

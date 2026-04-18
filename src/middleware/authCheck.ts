@@ -1,22 +1,35 @@
 import { NextFunction, Request, Response } from "express";
-import { UserRole, UserStatus } from "../../generated/prisma/enums";
+import { UserRole, UserStatus } from "../generated/prisma/enums";
 import { cookieUtils } from "../utils/cookie";
-import prisma from "../lib/prisma";
+import prisma from "../config/prisma";
 import AppError from "../helpers/errorHelpers/AppError";
 import status from "http-status";
 import { jwtUtils } from "../utils/jwt";
-import { env } from "../../config/env";
+import { envVar } from "../config/envVar";
+
+const getBearerToken = (authorizationHeader?: string) => {
+    if (!authorizationHeader) {
+        return undefined;
+    }
+
+    const [type, token] = authorizationHeader.split(" ");
+    if (type?.toLowerCase() !== "bearer" || !token) {
+        return undefined;
+    }
+
+    return token;
+};
 
 export const  authCheck = (...roles: UserRole[]) => {
     return async (req: Request, res: Response, next: NextFunction)=> {
         try {
             // session token check
             console.log("Checking authentication for request to:", req.path);
-            const sessionToken = cookieUtils.getBetterAuthSessionToken(req);
+            const sessionToken = cookieUtils.getBetterAuthSessionToken(req) || getBearerToken(req.headers.authorization);
             if(!sessionToken) {
                 return res.status(401).json({
                     success: false,
-                    message: "Unauthorized: No session token provided"
+                    message: "You need to sign in to continue."
                 })
             }
             const sessionExists = await prisma.session.findFirst({
@@ -69,14 +82,14 @@ export const  authCheck = (...roles: UserRole[]) => {
             }
 
             
-            const accessToken = cookieUtils.getCookie(req, "accessToken");
+            const accessToken = cookieUtils.getCookie(req, "accessToken") || getBearerToken(req.headers.authorization);
             if(!accessToken) {
-                throw new AppError(status.UNAUTHORIZED, "Unauthorized: No access token provided");
+                throw new AppError(status.UNAUTHORIZED, "Your login session is missing. Please sign in again.");
             }
 
-            const verifiedToken = jwtUtils.verifyToken(accessToken, env.ACCESS_TOKEN_SECRET as string);
+            const verifiedToken = jwtUtils.verifyToken(accessToken, envVar.ACCESS_TOKEN_SECRET as string);
             if(!verifiedToken.success){
-                throw new AppError(status.UNAUTHORIZED, "Unauthorized: Invalid access token");
+                throw new AppError(status.UNAUTHORIZED, "Your session has expired. Please sign in again.");
             }
             
             if(verifiedToken.data!.role && roles.length > 0 && !roles.includes(verifiedToken.data!.role as UserRole)) {

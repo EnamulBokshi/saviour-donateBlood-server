@@ -19,6 +19,7 @@ enum Gender {
 }
 
 enum UserRole {
+  SUPER_ADMIN
   ADMIN
   DONOR
   USER
@@ -28,6 +29,7 @@ enum UserStatus {
   ACTIVE
   INACTIVE
   BANNED
+  DELETED
 }
 
 enum RequestStatus {

@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome to Saviour</title>
+  </head>
+  <body style="margin:0;padding:0;background:#f5f7fb;font-family:Arial,Helvetica,sans-serif;color:#1f2937;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f5f7fb;padding:24px 0;">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="max-width:600px;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e5e7eb;">
+            <tr>
+              <td style="background:#7c3aed;padding:18px 24px;color:#ffffff;font-size:20px;font-weight:700;">
+                Welcome to Saviour
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:28px 24px 10px 24px;font-size:18px;font-weight:700;">
+                Your account is ready
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:0 24px 18px 24px;line-height:1.6;font-size:14px;">
+                Hi <%= name || "there" %>,<br/>
+                Thank you for joining Saviour. You can now sign in and start using the app.
+              </td>
+            </tr>
+            <tr>
+              <td style="padding:0 24px 28px 24px;line-height:1.6;font-size:12px;color:#6b7280;">
+                Role: <%= role || "USER" %>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>

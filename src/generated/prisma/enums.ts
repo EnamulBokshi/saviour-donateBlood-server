@@ -19,6 +19,7 @@ export type Gender = (typeof Gender)[keyof typeof Gender]
 
 
 export const UserRole = {
+  SUPER_ADMIN: 'SUPER_ADMIN',
   ADMIN: 'ADMIN',
   DONOR: 'DONOR',
   USER: 'USER'
@@ -30,7 +31,8 @@ export type UserRole = (typeof UserRole)[keyof typeof UserRole]
 export const UserStatus = {
   ACTIVE: 'ACTIVE',
   INACTIVE: 'INACTIVE',
-  BANNED: 'BANNED'
+  BANNED: 'BANNED',
+  DELETED: 'DELETED'
 } as const
 
 export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]

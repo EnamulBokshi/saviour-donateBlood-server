@@ -15,6 +15,11 @@ export const envVar = {
     JWT_SECRET: process.env.JWT_SECRET || '',
     JWT_EXPIRES_IN: process.env.JWT_EXPIRES_IN || '7d',
 
+    ACCESS_TOKEN_SECRET: process.env.ACCESS_TOKEN_SECRET as string,
+    REFRESH_TOKEN_SECRET: process.env.REFRESH_TOKEN_SECRET as string,
+    ACCESS_TOKEN_EXPIRES_IN: Number(process.env.ACCESS_TOKEN_EXPIRES_IN || 60 * 60), // 1 hour
+    REFRESH_TOKEN_EXPIRES_IN: Number(process.env.REFRESH_TOKEN_EXPIRES_IN || 60 * 60 * 24 * 30), // 30 days
+    BETTER_AUTH_SESSION_TOKEN_EXPIRES_IN: Number(process.env.BETTER_AUTH_SESSION_TOKEN_EXPIRES_IN || 60 * 60 * 24 * 7), // 7 days
     // better-auth config
     BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET || '',
     // BETTER_AUTH_EXPIRES_IN: process.env.BETTER_AUTH_EXPIRES_IN || '7d',
