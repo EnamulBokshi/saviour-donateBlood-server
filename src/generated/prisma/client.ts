@@ -20,7 +20,7 @@ import * as $Enums from "./enums.js"
 import * as $Class from "./internal/class.js"
 import * as Prisma from "./internal/prismaNamespace.js"
 
-export * as $Enums from './enums.js'
+export * as $Enums from "./enums.js"
 export * from "./enums.js"
 /**
  * ## Prisma Client

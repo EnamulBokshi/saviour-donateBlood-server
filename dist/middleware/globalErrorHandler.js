@@ -1,10 +1,10 @@
 import status from "http-status";
 import z from "zod";
-import { envVar } from "../config/envVar";
-import { Prisma } from "../generated/prisma/client";
-import { handlePrismaClientKnownRequestError, handlePrismaClientUnknownError, handlePrismaClientValidationError, handlerPrismaClientInitializationError, handlerPrismaClientRustPanicError } from "../helpers/errorHelpers/prismaError";
-import zodErrorHelper from "../helpers/errorHelpers/zodErrorHelper";
-import AppError from "../helpers/errorHelpers/AppError";
+import { envVar } from "../config/envVar.js";
+import { Prisma } from "../generated/prisma/client.js";
+import { handlePrismaClientKnownRequestError, handlePrismaClientUnknownError, handlePrismaClientValidationError, handlerPrismaClientInitializationError, handlerPrismaClientRustPanicError } from "../helpers/errorHelpers/prismaError.js";
+import zodErrorHelper from "../helpers/errorHelpers/zodErrorHelper.js";
+import AppError from "../helpers/errorHelpers/AppError.js";
 export const globalErrorHandler = async (err, req, res, next) => {
     void next;
     if (envVar.NODE_ENV === "development") {

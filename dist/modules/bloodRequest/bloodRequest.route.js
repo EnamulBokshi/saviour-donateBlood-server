@@ -1,1 +1,13 @@
-"use strict";
+import { Router } from "express";
+import { UserRole } from "../../generated/prisma/enums.js";
+import authCheck from "../../middleware/authCheck.js";
+import requestValidator from "../../middleware/requestValidator.js";
+import { BloodRequestController } from "./bloodRequest.controller.js";
+import { BloodRequestValidation } from "./bloodRequest.validation.js";
+const bloodRequestRouter = Router();
+bloodRequestRouter.get("/", authCheck(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.USER, UserRole.DONOR), BloodRequestController.getBloodRequests);
+bloodRequestRouter.get("/:id", authCheck(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.USER, UserRole.DONOR), BloodRequestController.getBloodRequestById);
+bloodRequestRouter.post("/", authCheck(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.USER, UserRole.DONOR), requestValidator(BloodRequestValidation.createBloodRequestValidationSchema), BloodRequestController.createBloodRequest);
+bloodRequestRouter.patch("/:id", authCheck(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.USER, UserRole.DONOR), requestValidator(BloodRequestValidation.updateBloodRequestValidationSchema), BloodRequestController.updateBloodRequest);
+bloodRequestRouter.delete("/:id", authCheck(UserRole.ADMIN, UserRole.SUPER_ADMIN, UserRole.USER, UserRole.DONOR), BloodRequestController.softDeleteBloodRequest);
+export default bloodRequestRouter;

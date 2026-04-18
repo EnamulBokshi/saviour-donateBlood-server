@@ -1,4 +1,4 @@
-import { deleteFileCloudinary } from "../config/cloudinary";
+import { deleteFileCloudinary } from "../config/cloudinary.js";
 export const deleteFileFromGlobalErrorHandler = async (req) => {
     try {
         const filesToDelete = [];

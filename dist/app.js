@@ -1,12 +1,12 @@
-import express from 'express';
-import cors from 'cors';
-import qs from 'qs';
-import path from 'node:path';
-import cookieParser from 'cookie-parser';
-import { envVar } from './config/envVar';
-import indexRouter from './route';
-import { NotFoundMiddleware } from './middleware/notFound';
-import { globalErrorHandler } from './middleware/globalErrorHandler';
+import express from "express";
+import cors from "cors";
+import qs from "qs";
+import path from "node:path";
+import cookieParser from "cookie-parser";
+import { envVar } from "./config/envVar.js";
+import indexRouter from "./route/index.js";
+import { NotFoundMiddleware } from "./middleware/notFound.js";
+import { globalErrorHandler } from "./middleware/globalErrorHandler.js";
 const app = express();
 const isProduction = envVar.NODE_ENV === "production";
 const configuredOrigins = isProduction
@@ -38,20 +38,29 @@ app.use(cors({
     origin: corsOriginValidator,
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"],
-    allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept"],
+    allowedHeaders: [
+        "Content-Type",
+        "Authorization",
+        "X-Requested-With",
+        "Accept",
+    ],
 }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.get("/", (req, res) => {
+    res.status(200).json({ message: "Welcome to the Saviour API" });
+});
 // routes
 app.get("/health", (req, res) => {
-    res.status(200).json({ message: "Server is healthy",
+    res.status(200).json({
+        message: "Server is healthy",
         request: {
             method: req.method,
             url: req.url,
             ip: req.ip,
-        }
+        },
     });
 });
 app.use("/api/v1", indexRouter);

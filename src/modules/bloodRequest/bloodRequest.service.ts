@@ -30,15 +30,7 @@ const bloodRequestInclude = {
   requestToDonor: {
     include: {
       user: true,
-    },
-  },
-  donation: {
-    include: {
-      donor: {
-        include: {
-          user: true,
-        },
-      },
+      
     },
   },
 } satisfies Prisma.BloodRequestInclude;

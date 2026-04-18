@@ -1,14 +1,14 @@
 import status from "http-status";
-import prisma from "../../config/prisma";
-import { envVar } from "../../config/envVar";
-import AppError from "../../helpers/errorHelpers/AppError";
-import { deleteFileCloudinary } from "../../config/cloudinary";
-import { auth } from "../../lib/auth";
-import { sendEmail } from "../../utils/email";
-import { uploadFileToCloudinary } from "../../config/cloudinary";
-import { tokenUtils } from "../../utils/token";
-import { jwtUtils } from "../../utils/jwt";
-import { UserRole, UserStatus } from "../../generated/prisma/enums";
+import prisma from "../../config/prisma.js";
+import { envVar } from "../../config/envVar.js";
+import AppError from "../../helpers/errorHelpers/AppError.js";
+import { deleteFileCloudinary } from "../../config/cloudinary.js";
+import { auth } from "../../lib/auth.js";
+import { sendEmail } from "../../utils/email.js";
+import { uploadFileToCloudinary } from "../../config/cloudinary.js";
+import { tokenUtils } from "../../utils/token.js";
+import { jwtUtils } from "../../utils/jwt.js";
+import { UserRole, UserStatus } from "../../generated/prisma/enums.js";
 const assertAccountUsable = (userStatus, isDeleted) => {
     if (isDeleted || userStatus === UserStatus.DELETED) {
         throw new AppError(status.FORBIDDEN, "This account is no longer available. Please contact support if this is unexpected.");

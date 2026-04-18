@@ -170,7 +170,7 @@ const createDonation = async (payload: DonationCreatePayload, currentUser: IRequ
     }
   }
 
-  if (bloodRequest.donationId) {
+  if (bloodRequest.status === "FULFILLED") {
     throw new AppError(status.CONFLICT, "This blood request already has a donation record.");
   }
 

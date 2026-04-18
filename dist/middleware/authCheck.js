@@ -1,10 +1,10 @@
-import { UserStatus } from "../generated/prisma/enums";
-import { cookieUtils } from "../utils/cookie";
-import prisma from "../config/prisma";
-import AppError from "../helpers/errorHelpers/AppError";
+import { UserStatus } from "../generated/prisma/enums.js";
+import { cookieUtils } from "../utils/cookie.js";
+import prisma from "../config/prisma.js";
+import AppError from "../helpers/errorHelpers/AppError.js";
 import status from "http-status";
-import { jwtUtils } from "../utils/jwt";
-import { envVar } from "../config/envVar";
+import { jwtUtils } from "../utils/jwt.js";
+import { envVar } from "../config/envVar.js";
 const getBearerToken = (authorizationHeader) => {
     if (!authorizationHeader) {
         return undefined;

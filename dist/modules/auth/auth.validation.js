@@ -1,5 +1,5 @@
 import z from "zod";
-import { BloodGroup, UserRole } from "../../generated/prisma/enums";
+import { BloodGroup, UserRole } from "../../generated/prisma/enums.js";
 const donorProfileSchema = z.object({
     fullName: z.string().trim().min(2, "Donor full name is required."),
     age: z.coerce
@@ -7,7 +7,7 @@ const donorProfileSchema = z.object({
         .int("Donor age must be a whole number.")
         .min(18, "Donor must be at least 18 years old.")
         .max(65, "Donor age must be 65 or below."),
-    bloodGroup: z.nativeEnum(BloodGroup, {
+    bloodGroup: z.enum(BloodGroup, {
         message: "Please select a valid blood group.",
     }),
     contactNumber: z.string().trim().min(6, "Donor contact number is required."),
@@ -22,7 +22,7 @@ const registerUserValidationSchema = z
         .string()
         .min(8, "Password must be at least 8 characters long.")
         .max(64, "Password is too long."),
-    role: z.nativeEnum(UserRole).optional(),
+    role: z.enum(UserRole).optional(),
     donorProfile: donorProfileSchema.optional(),
 })
     .superRefine((data, ctx) => {
@@ -35,7 +35,7 @@ const registerUserValidationSchema = z
     }
 });
 const loginValidationSchema = z.object({
-    email: z.string().trim().email("Please provide a valid email address."),
+    email: z.email("Please provide a valid email address."),
     password: z.string().min(1, "Password is required."),
 });
 const changePasswordValidationSchema = z.object({
@@ -43,14 +43,14 @@ const changePasswordValidationSchema = z.object({
     newPassword: z.string().min(8, "New password must be at least 8 characters long."),
 });
 const verifyEmailValidationSchema = z.object({
-    email: z.string().trim().email("Please provide a valid email address."),
+    email: z.email("Please provide a valid email address."),
     otp: z.string().trim().min(4, "OTP is required."),
 });
 const emailOnlyValidationSchema = z.object({
-    email: z.string().trim().email("Please provide a valid email address."),
+    email: z.email("Please provide a valid email address."),
 });
 const resetPasswordValidationSchema = z.object({
-    email: z.string().trim().email("Please provide a valid email address."),
+    email: z.email("Please provide a valid email address."),
     otp: z.string().trim().min(4, "OTP is required."),
     newPassword: z.string().min(8, "New password must be at least 8 characters long."),
 });

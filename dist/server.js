@@ -1,5 +1,5 @@
-import { envVar } from "./config/envVar";
-import app from "./app";
+import { envVar } from "./config/envVar.js";
+import app from "./app.js";
 let server;
 const bootstrap = async () => {
     try {

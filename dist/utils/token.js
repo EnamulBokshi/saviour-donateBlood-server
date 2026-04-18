@@ -1,6 +1,6 @@
-import { jwtUtils } from "./jwt";
-import { envVar } from "../config/envVar";
-import { cookieUtils } from "./cookie";
+import { jwtUtils } from "./jwt.js";
+import { envVar } from "../config/envVar.js";
+import { cookieUtils } from "./cookie.js";
 const isProduction = envVar.NODE_ENV === "production";
 const cookieSameSite = isProduction ? "none" : "lax";
 const getAccessToken = (payload) => {

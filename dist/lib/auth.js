@@ -1,10 +1,10 @@
 import { betterAuth } from "better-auth";
-import { envVar } from "../config/envVar";
+import { envVar } from "../config/envVar.js";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import prisma from "../config/prisma";
-import { UserRole, UserStatus } from "../generated/prisma/browser";
+import prisma from "../config/prisma.js";
+import { UserRole, UserStatus } from "../generated/prisma/browser.js";
 import { bearer, emailOTP } from "better-auth/plugins";
-import { sendEmail } from "../utils/email";
+import { sendEmail } from "../utils/email.js";
 const isProduction = envVar.ENV_MODE === "production";
 const cookieSameSite = isProduction ? "none" : "lax";
 const trustedOrigins = isProduction

@@ -1,11 +1,11 @@
 import status from "http-status";
-import { AuthService } from "./auth.service";
-import AppError from "../../helpers/errorHelpers/AppError";
-import catchAsync from "../../helpers/catchAsync";
-import { sendResponse } from "../../helpers/sendResponse";
-import { cookieUtils } from "../../utils/cookie";
-import { tokenUtils } from "../../utils/token";
-import { envVar } from "../../config/envVar";
+import { AuthService } from "./auth.service.js";
+import AppError from "../../helpers/errorHelpers/AppError.js";
+import catchAsync from "../../helpers/catchAsync.js";
+import { sendResponse } from "../../helpers/sendResponse.js";
+import { cookieUtils } from "../../utils/cookie.js";
+import { tokenUtils } from "../../utils/token.js";
+import { envVar } from "../../config/envVar.js";
 const isProduction = envVar.NODE_ENV === "production";
 const cookieSameSite = isProduction ? "none" : "lax";
 const getBearerToken = (authorizationHeader) => {

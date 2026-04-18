@@ -5,17 +5,17 @@
   "main": "index.js",
   "scripts": {
     "start": "tsx src/server.ts",
-    "build": "prisma generate && tsc",
+    "build": "prisma generate && node scripts/fixPrismaEsm.js && tsc",
     "dev": "tsx watch src/server.ts",
     "seed:admin": "tsx src/scripts/seedAdmin.ts",
     "migrate": "prisma migrate dev",
-    "generate": "prisma generate",
+    "generate": "prisma generate && node scripts/fixPrismaEsm.js",
     "studio": "prisma studio",
     "push": "prisma db push",
     "pull": "prisma db pull",
     "lint": "eslint ./src/**/* --no-warn-ignored",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "vercel-build": "prisma generate && prisma migrate deploy"
+    "vercel-build": "prisma generate && node scripts/fixPrismaEsm.js && prisma migrate deploy"
   },
   "keywords": [],
   "author": "",
