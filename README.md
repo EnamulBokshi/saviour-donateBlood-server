@@ -24,7 +24,7 @@ The API is designed to work well with both web clients and Flutter mobile apps.
 
 Local development:
 
-- `http://localhost:5000/api/v1`
+- `https://seviour-server.vercel.app/api/v1`
 
 Production:
 
