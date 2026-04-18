@@ -256,6 +256,7 @@ const getMe = async (user: IRequestUser) => {
     },
     include: {
       donor: true,
+      bloodRequests:true,
     },
   });
 
