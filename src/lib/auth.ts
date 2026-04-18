@@ -1,17 +1,28 @@
 import {betterAuth} from "better-auth";
-import {envVar} from "../config/envVar";
+import {envVar} from "../config/envVar.js";
 import {prismaAdapter} from "better-auth/adapters/prisma";
-import prisma from "../config/prisma";
-import { UserRole, UserStatus } from "../generated/prisma/browser";
+import prisma from "../config/prisma.js";
+import { UserRole, UserStatus } from "../generated/prisma/browser.js";
 import { bearer, emailOTP, oAuthProxy } from "better-auth/plugins";
-import { sendEmail } from "../utils/email";
+import { sendEmail } from "../utils/email.js";
 
 const isProduction = envVar.ENV_MODE === "production";
-const cookieSameSite = isProduction ? "none":"lax"
+const cookieSameSite = isProduction ? "none":"lax";
+const trustedOrigins = isProduction
+    ? envVar.BETTER_AUTH_TRUSTED_ORIGINS
+    : [
+            ...new Set([
+                ...envVar.BETTER_AUTH_TRUSTED_ORIGINS,
+                envVar.frontendURL,
+                envVar.backendURL,
+                ...envVar.DEFAULT_DEV_ORIGINS,
+            ]),
+        ];
+
 export const auth = betterAuth({
     baseURL: envVar.BETTER_AUTH_URL,
     secret: envVar.BETTER_AUTH_SECRET,
-    trustedOrigins: isProduction ? [envVar.frontendURL, envVar.backendURL] : ["http://localhost:3000", "http://localhost:5000"],
+        trustedOrigins,
     database: prismaAdapter(prisma, {
         provider: "postgresql"
     }),

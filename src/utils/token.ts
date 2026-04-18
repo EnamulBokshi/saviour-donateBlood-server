@@ -1,8 +1,8 @@
 import { JwtPayload, SignOptions } from "jsonwebtoken";
-import { jwtUtils } from "./jwt";
-import { envVar } from "../config/envVar";
+import { jwtUtils } from "./jwt.js";
+import { envVar } from "../config/envVar.js";
 import { Response } from "express";
-import { cookieUtils } from "./cookie";
+import { cookieUtils } from "./cookie.js";
 
 const isProduction = envVar.NODE_ENV === "production";
 const cookieSameSite: "lax" | "none" = isProduction ? "none" : "lax";

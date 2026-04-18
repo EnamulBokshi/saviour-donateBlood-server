@@ -1,7 +1,7 @@
 import z from "zod";
 
 import status from "http-status";
-import { IErrorResponse, IErrorSource } from "../../types/error.types";
+import { IErrorResponse, IErrorSource } from "../../types/error.types.js";
 
 const zodErrorHelper = (err: z.ZodError):IErrorResponse => {
 

@@ -1,21 +1,21 @@
 import status from "http-status";
 import { JwtPayload } from "jsonwebtoken";
-import prisma from "../../config/prisma";
-import { envVar } from "../../config/envVar";
-import AppError from "../../helpers/errorHelpers/AppError";
-import { deleteFileCloudinary } from "../../config/cloudinary";
-import { auth } from "../../lib/auth";
-import { sendEmail } from "../../utils/email";
-import { uploadFileToCloudinary } from "../../config/cloudinary";
-import { tokenUtils } from "../../utils/token";
-import { jwtUtils } from "../../utils/jwt";
-import { IRequestUser } from "../../types";
-import { UserRole, UserStatus } from "../../generated/prisma/enums";
+import prisma from "../../config/prisma.js";
+import { envVar } from "../../config/envVar.js";
+import AppError from "../../helpers/errorHelpers/AppError.js";
+import { deleteFileCloudinary } from "../../config/cloudinary.js";
+import { auth } from "../../lib/auth.js";
+import { sendEmail } from "../../utils/email.js";
+import { uploadFileToCloudinary } from "../../config/cloudinary.js";
+import { tokenUtils } from "../../utils/token.js";
+import { jwtUtils } from "../../utils/jwt.js";
+import type { IRequestUser } from "../../types";
+import { UserRole, UserStatus } from "../../generated/prisma/enums.js";
 import {
   IChangePasswordPayload,
   RegisterDonorProfilePayload,
   RegisterUserPayload,
-} from "./auth.interface";
+} from "./auth.interface.js";
 
 const assertAccountUsable = (userStatus: UserStatus, isDeleted: boolean) => {
   if (isDeleted || userStatus === UserStatus.DELETED) {

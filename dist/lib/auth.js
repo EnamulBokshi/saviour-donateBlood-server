@@ -7,10 +7,20 @@ import { bearer, emailOTP } from "better-auth/plugins";
 import { sendEmail } from "../utils/email";
 const isProduction = envVar.ENV_MODE === "production";
 const cookieSameSite = isProduction ? "none" : "lax";
+const trustedOrigins = isProduction
+    ? envVar.BETTER_AUTH_TRUSTED_ORIGINS
+    : [
+        ...new Set([
+            ...envVar.BETTER_AUTH_TRUSTED_ORIGINS,
+            envVar.frontendURL,
+            envVar.backendURL,
+            ...envVar.DEFAULT_DEV_ORIGINS,
+        ]),
+    ];
 export const auth = betterAuth({
     baseURL: envVar.BETTER_AUTH_URL,
     secret: envVar.BETTER_AUTH_SECRET,
-    trustedOrigins: isProduction ? [envVar.frontendURL, envVar.backendURL] : ["http://localhost:3000", "http://localhost:5000"],
+    trustedOrigins,
     database: prismaAdapter(prisma, {
         provider: "postgresql"
     }),

@@ -78,6 +78,8 @@ Minimum required variables:
 - `BETTER_AUTH_URL`
 - `FRONTEND_URL`
 - `BACKEND_URL`
+- `CORS_ALLOWED_ORIGINS` (comma-separated browser origins)
+- `BETTER_AUTH_TRUSTED_ORIGINS` (comma-separated trusted origins for Better Auth)
 
 Email and Cloudinary:
 

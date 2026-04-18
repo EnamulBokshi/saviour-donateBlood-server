@@ -2,6 +2,14 @@ import dotenv from 'dotenv';
 
 dotenv.config();
 
+const splitCsv = (value?: string) =>
+  (value || "")
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+const defaultDevOrigins = ["http://localhost:3000", "http://localhost:5000"];
+
 export const envVar = {
     ENV_MODE: process.env.ENV_MODE || 'development',
     NODE_ENV: process.env.NODE_ENV || 'development',
@@ -36,6 +44,9 @@ export const envVar = {
     BETTER_AUTH_URL: process.env.BETTER_AUTH_URL || 'http://localhost:5000/api/auth/better',
     frontendURL: process.env.FRONTEND_URL || 'http://localhost:3000',
     backendURL: process.env.BACKEND_URL || 'http://localhost:5000',
+    CORS_ALLOWED_ORIGINS: splitCsv(process.env.CORS_ALLOWED_ORIGINS),
+    BETTER_AUTH_TRUSTED_ORIGINS: splitCsv(process.env.BETTER_AUTH_TRUSTED_ORIGINS),
+    DEFAULT_DEV_ORIGINS: defaultDevOrigins,
 
     // Super admin config
     SUPER_ADMIN_NAME: process.env.SUPER_ADMIN_NAME as string,
