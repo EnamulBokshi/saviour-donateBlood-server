@@ -4,9 +4,12 @@ dotenv.config();
 
 export const envVar = {
     ENV_MODE: process.env.ENV_MODE || 'development',
+    NODE_ENV: process.env.NODE_ENV || 'development',
     DATABASE_URL: process.env.DATABASE_URL || '',
     PORT: process.env.PORT || '5000',
 
+    
+    
     // JWT config
 
     JWT_SECRET: process.env.JWT_SECRET || '',
@@ -29,4 +32,26 @@ export const envVar = {
     frontendURL: process.env.FRONTEND_URL || 'http://localhost:3000',
     backendURL: process.env.BACKEND_URL || 'http://localhost:5000',
 
+    // Super admin config
+    SUPER_ADMIN_NAME: process.env.SUPER_ADMIN_NAME as string,
+    SUPER_ADMIN_EMAIL: process.env.SUPER_ADMIN_EMAIL as string,
+    SUPER_ADMIN_PASSWORD: process.env.SUPER_ADMIN_PASSWORD as string,
+    SUPER_ADMIN_PHONE: process.env.SUPER_ADMIN_PHONE as string,
+    SUPER_ADMIN_PROFILE_PHOTO_URL: process.env
+      .SUPER_ADMIN_PROFILE_PHOTO_URL as string,
+
+
+    // SMTP config
+     SMTP_SENDER: {
+      USER: process.env.EMAIL_SENDER_SMTP_USER as string,
+      PASSWORD: process.env.EMAIL_SENDER_SMTP_PASSWORD as string,
+      HOST: process.env.EMAIL_SENDER_SMTP_HOST as string,
+      PORT: parseInt(process.env.EMAIL_SENDER_SMTP_PORT as string, 10),
+    },
+    // Cloudinary config
+    CLOUDINARY: {
+      CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME as string,
+      API_KEY: process.env.CLOUDINARY_API_KEY as string,
+      API_SECRET: process.env.CLOUDINARY_API_SECRET as string,
+    },
 }
