@@ -32,6 +32,15 @@ const corsOriginValidator = (
     return;
   }
 
+  // Allow all origins if wildcard is set
+  if (
+    envVar.CORS_ALLOWED_ORIGINS.length === 1 &&
+    envVar.CORS_ALLOWED_ORIGINS[0] === "*"
+  ) {
+    callback(null, true);
+    return;
+  }
+
   if (configuredOrigins.includes(requestOrigin)) {
     callback(null, true);
     return;
