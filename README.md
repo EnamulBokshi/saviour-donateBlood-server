@@ -24,11 +24,11 @@ The API is designed to work well with both web clients and Flutter mobile apps.
 
 Local development:
 
-- `https://seviour-server.vercel.app/api/v1`
+- `http://localhost:5000/api/v1`
 
 Production:
 
-- Use your deployed Vercel or server URL with the same `/api/v1` prefix.
+-  `https://seviour-server.vercel.app/api/v1` .
 
 ## Tech Stack
 

@@ -1,0 +1,157 @@
+{
+  "info": {
+    "_postman_id": "f1a1a9f1-1c9d-4f08-8e8b-b3d7e1b2a103",
+    "name": "Saviour Server - Donation APIs",
+    "description": "Donation collection for the Saviour backend. Base route: /api/v1/donations. Use the shared environment for baseUrl, accessToken, donationId, donorId, and bloodRequestId.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000" },
+    { "key": "accessToken", "value": "" },
+    { "key": "donationId", "value": "" },
+    { "key": "donorId", "value": "" },
+    { "key": "bloodRequestId", "value": "" },
+    { "key": "searchTerm", "value": "blood" },
+    { "key": "page", "value": "1" },
+    { "key": "limit", "value": "10" },
+    { "key": "sortBy", "value": "donationDate" },
+    { "key": "sortOrder", "value": "desc" },
+    { "key": "status", "value": "CONFIRMED" }
+  ],
+  "item": [
+    {
+      "name": "Donation - List",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/donations?searchTerm={{searchTerm}}&page={{page}}&limit={{limit}}&sortBy={{sortBy}}&sortOrder={{sortOrder}}&status={{status}}&donorId={{donorId}}&bloodRequestId={{bloodRequestId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "donations"],
+          "query": [
+            { "key": "searchTerm", "value": "{{searchTerm}}" },
+            { "key": "page", "value": "{{page}}" },
+            { "key": "limit", "value": "{{limit}}" },
+            { "key": "sortBy", "value": "{{sortBy}}" },
+            { "key": "sortOrder", "value": "{{sortOrder}}" },
+            { "key": "status", "value": "{{status}}" },
+            { "key": "donorId", "value": "{{donorId}}" },
+            { "key": "bloodRequestId", "value": "{{bloodRequestId}}" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Donation - Get By ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Store donation id from response', function () {",
+              "  const responseBodyJson = pm.response.json();",
+              "  if (responseBodyJson && responseBodyJson.data && responseBodyJson.data.id) {",
+              "    pm.collectionVariables.set('donationId', responseBodyJson.data.id);",
+              "    pm.environment.set('donationId', responseBodyJson.data.id);",
+              "  }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/donations/{{donationId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "donations", "{{donationId}}"]
+        }
+      }
+    },
+    {
+      "name": "Donation - Create",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 201', function () {",
+              "  pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test('Store donation id from created record', function () {",
+              "  const responseBodyJson = pm.response.json();",
+              "  if (responseBodyJson && responseBodyJson.data && responseBodyJson.data.id) {",
+              "    pm.collectionVariables.set('donationId', responseBodyJson.data.id);",
+              "    pm.environment.set('donationId', responseBodyJson.data.id);",
+              "  }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"donorId\": \"{{donorId}}\",\n  \"bloodRequestId\": \"{{bloodRequestId}}\",\n  \"donationDate\": \"2026-04-20T10:00:00.000Z\",\n  \"status\": \"CONFIRMED\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/donations",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "donations"]
+        }
+      }
+    },
+    {
+      "name": "Donation - Update",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"donationDate\": \"2026-04-21T10:00:00.000Z\",\n  \"status\": \"COMPLETED\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/donations/{{donationId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "donations", "{{donationId}}"]
+        }
+      }
+    },
+    {
+      "name": "Donation - Delete",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/donations/{{donationId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "donations", "{{donationId}}"]
+        }
+      }
+    }
+  ]
+}

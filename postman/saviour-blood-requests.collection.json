@@ -1,0 +1,162 @@
+{
+  "info": {
+    "_postman_id": "f1a1a9f1-1c9d-4f08-8e8b-b3d7e1b2a102",
+    "name": "Saviour Server - Blood Request APIs",
+    "description": "Blood request collection for the Saviour backend. Base route: /api/v1/blood-requests. Use the shared environment for baseUrl, accessToken, bloodRequestId, and donorId.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000" },
+    { "key": "accessToken", "value": "" },
+    { "key": "bloodRequestId", "value": "" },
+    { "key": "donorId", "value": "" },
+    { "key": "searchTerm", "value": "Dhaka" },
+    { "key": "page", "value": "1" },
+    { "key": "limit", "value": "10" },
+    { "key": "sortBy", "value": "createdAt" },
+    { "key": "sortOrder", "value": "desc" },
+    { "key": "patientBloodGroup", "value": "O_POSITIVE" },
+    { "key": "status", "value": "PENDING" },
+    { "key": "isEmergency", "value": "false" },
+    { "key": "requestToDonorId", "value": "" },
+    { "key": "userId", "value": "" }
+  ],
+  "item": [
+    {
+      "name": "Blood Request - List",
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/blood-requests?searchTerm={{searchTerm}}&page={{page}}&limit={{limit}}&sortBy={{sortBy}}&sortOrder={{sortOrder}}&patientBloodGroup={{patientBloodGroup}}&status={{status}}&isEmergency={{isEmergency}}&requestToDonorId={{requestToDonorId}}&userId={{userId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "blood-requests"],
+          "query": [
+            { "key": "searchTerm", "value": "{{searchTerm}}" },
+            { "key": "page", "value": "{{page}}" },
+            { "key": "limit", "value": "{{limit}}" },
+            { "key": "sortBy", "value": "{{sortBy}}" },
+            { "key": "sortOrder", "value": "{{sortOrder}}" },
+            { "key": "patientBloodGroup", "value": "{{patientBloodGroup}}" },
+            { "key": "status", "value": "{{status}}" },
+            { "key": "isEmergency", "value": "{{isEmergency}}" },
+            { "key": "requestToDonorId", "value": "{{requestToDonorId}}" },
+            { "key": "userId", "value": "{{userId}}" }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Blood Request - Get By ID",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Store blood request id from response', function () {",
+              "  const responseBodyJson = pm.response.json();",
+              "  if (responseBodyJson && responseBodyJson.data && responseBodyJson.data.id) {",
+              "    pm.collectionVariables.set('bloodRequestId', responseBodyJson.data.id);",
+              "    pm.environment.set('bloodRequestId', responseBodyJson.data.id);",
+              "  }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/blood-requests/{{bloodRequestId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "blood-requests", "{{bloodRequestId}}"]
+        }
+      }
+    },
+    {
+      "name": "Blood Request - Create",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 201', function () {",
+              "  pm.response.to.have.status(201);",
+              "});",
+              "",
+              "pm.test('Store blood request id from created record', function () {",
+              "  const responseBodyJson = pm.response.json();",
+              "  if (responseBodyJson && responseBodyJson.data && responseBodyJson.data.id) {",
+              "    pm.collectionVariables.set('bloodRequestId', responseBodyJson.data.id);",
+              "    pm.environment.set('bloodRequestId', responseBodyJson.data.id);",
+              "  }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"hospitalName\": \"Dhaka Medical College Hospital\",\n  \"hospitalAddress\": \"Dhaka, Bangladesh\",\n  \"patientName\": \"Patient Name\",\n  \"patientAge\": 32,\n  \"patientBloodGroup\": \"O_POSITIVE\",\n  \"bloodUnits\": 2,\n  \"isEmergency\": true,\n  \"contactNumber\": \"+8801700000000\",\n  \"dateOfDonation\": \"2026-04-20T10:00:00.000Z\",\n  \"description\": \"Urgent blood requirement\",\n  \"requestToDonorId\": \"{{donorId}}\",\n  \"status\": \"PENDING\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/blood-requests",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "blood-requests"]
+        }
+      }
+    },
+    {
+      "name": "Blood Request - Update",
+      "request": {
+        "method": "PATCH",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" },
+          { "key": "Content-Type", "value": "application/json" }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"hospitalName\": \"Updated Hospital Name\",\n  \"hospitalAddress\": \"Updated Address\",\n  \"patientName\": \"Updated Patient Name\",\n  \"patientAge\": 35,\n  \"patientBloodGroup\": \"A_POSITIVE\",\n  \"bloodUnits\": 3,\n  \"isEmergency\": false,\n  \"contactNumber\": \"+8801711111111\",\n  \"dateOfDonation\": \"2026-04-21T10:00:00.000Z\",\n  \"description\": \"Updated request details\",\n  \"requestToDonorId\": \"{{donorId}}\",\n  \"status\": \"ACCEPTED\"\n}",
+          "options": { "raw": { "language": "json" } }
+        },
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/blood-requests/{{bloodRequestId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "blood-requests", "{{bloodRequestId}}"]
+        }
+      }
+    },
+    {
+      "name": "Blood Request - Delete",
+      "request": {
+        "method": "DELETE",
+        "header": [
+          { "key": "Authorization", "value": "Bearer {{accessToken}}" }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/blood-requests/{{bloodRequestId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["api", "v1", "blood-requests", "{{bloodRequestId}}"]
+        }
+      }
+    }
+  ]
+}

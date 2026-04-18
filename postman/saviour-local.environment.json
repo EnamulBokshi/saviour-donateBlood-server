@@ -1,0 +1,69 @@
+{
+  "id": "b0d0c9c4-3f27-4de8-8e5f-3bf0ce4c4a01",
+  "name": "Saviour Local Environment",
+  "values": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "accessToken",
+      "value": "",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "refreshToken",
+      "value": "",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "sessionToken",
+      "value": "",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "donorId",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "bloodRequestId",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "donationId",
+      "value": "",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "email",
+      "value": "user@example.com",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "password",
+      "value": "Password123!",
+      "type": "secret",
+      "enabled": true
+    },
+    {
+      "key": "otp",
+      "value": "123456",
+      "type": "default",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment",
+  "_postman_exported_at": "2026-04-19T00:00:00.000Z",
+  "_postman_exported_using": "GitHub Copilot"
+}

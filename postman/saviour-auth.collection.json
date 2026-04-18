@@ -2,7 +2,7 @@
   "info": {
     "_postman_id": "6a6f4cc0-dc8f-4f04-8f36-9de44d7f0f99",
     "name": "Saviour Server - Auth APIs",
-    "description": "Auth collection for Saviour Flutter backend. Base route: /api/v1/auth",
+    "description": "Auth collection for the Saviour backend. Base route: /api/v1/auth. Sign-up, sign-in, me, refresh-token, password reset, profile image update, and logout flows are included. Responses may return accessToken, refreshToken, token, or sessionToken.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -38,6 +38,37 @@
   "item": [
     {
       "name": "Auth - Sign Up USER (multipart)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200, 201, or 202', function () {",
+              "  pm.expect(pm.response.code).to.be.oneOf([200, 201, 202]);",
+              "});",
+              "",
+              "pm.test('Store tokens from sign-up response when available', function () {",
+              "  const responseBodyJson = pm.response.json();",
+              "  if (responseBodyJson && responseBodyJson.data) {",
+              "    if (responseBodyJson.data.accessToken) {",
+              "      pm.collectionVariables.set('accessToken', responseBodyJson.data.accessToken);",
+              "    }",
+              "    if (responseBodyJson.data.refreshToken) {",
+              "      pm.collectionVariables.set('refreshToken', responseBodyJson.data.refreshToken);",
+              "    }",
+              "    if (responseBodyJson.data.token) {",
+              "      pm.collectionVariables.set('sessionToken', responseBodyJson.data.token);",
+              "    }",
+              "    if (responseBodyJson.data.sessionToken) {",
+              "      pm.collectionVariables.set('sessionToken', responseBodyJson.data.sessionToken);",
+              "    }",
+              "  }",
+              "});"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "POST",
         "header": [],
@@ -73,6 +104,37 @@
     },
     {
       "name": "Auth - Sign Up DONOR (multipart)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200, 201, or 202', function () {",
+              "  pm.expect(pm.response.code).to.be.oneOf([200, 201, 202]);",
+              "});",
+              "",
+              "pm.test('Store tokens from sign-up response when available', function () {",
+              "  const responseBodyJson = pm.response.json();",
+              "  if (responseBodyJson && responseBodyJson.data) {",
+              "    if (responseBodyJson.data.accessToken) {",
+              "      pm.collectionVariables.set('accessToken', responseBodyJson.data.accessToken);",
+              "    }",
+              "    if (responseBodyJson.data.refreshToken) {",
+              "      pm.collectionVariables.set('refreshToken', responseBodyJson.data.refreshToken);",
+              "    }",
+              "    if (responseBodyJson.data.token) {",
+              "      pm.collectionVariables.set('sessionToken', responseBodyJson.data.token);",
+              "    }",
+              "    if (responseBodyJson.data.sessionToken) {",
+              "      pm.collectionVariables.set('sessionToken', responseBodyJson.data.sessionToken);",
+              "    }",
+              "  }",
+              "});"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "POST",
         "header": [],
@@ -123,15 +185,19 @@
               "  if (responseBodyJson && responseBodyJson.data) {",
               "    if (responseBodyJson.data.accessToken) {",
               "      pm.collectionVariables.set('accessToken', responseBodyJson.data.accessToken);",
+              "      pm.environment.set('accessToken', responseBodyJson.data.accessToken);",
               "    }",
               "    if (responseBodyJson.data.refreshToken) {",
               "      pm.collectionVariables.set('refreshToken', responseBodyJson.data.refreshToken);",
+              "      pm.environment.set('refreshToken', responseBodyJson.data.refreshToken);",
               "    }",
               "    if (responseBodyJson.data.token) {",
               "      pm.collectionVariables.set('sessionToken', responseBodyJson.data.token);",
+              "      pm.environment.set('sessionToken', responseBodyJson.data.token);",
               "    }",
               "    if (responseBodyJson.data.sessionToken) {",
               "      pm.collectionVariables.set('sessionToken', responseBodyJson.data.sessionToken);",
+              "      pm.environment.set('sessionToken', responseBodyJson.data.sessionToken);",
               "    }",
               "  }",
               "});"
@@ -212,12 +278,15 @@
               "  if (responseBodyJson && responseBodyJson.data) {",
               "    if (responseBodyJson.data.accessToken) {",
               "      pm.collectionVariables.set('accessToken', responseBodyJson.data.accessToken);",
+              "      pm.environment.set('accessToken', responseBodyJson.data.accessToken);",
               "    }",
               "    if (responseBodyJson.data.refreshToken) {",
               "      pm.collectionVariables.set('refreshToken', responseBodyJson.data.refreshToken);",
+              "      pm.environment.set('refreshToken', responseBodyJson.data.refreshToken);",
               "    }",
               "    if (responseBodyJson.data.sessionToken) {",
               "      pm.collectionVariables.set('sessionToken', responseBodyJson.data.sessionToken);",
+              "      pm.environment.set('sessionToken', responseBodyJson.data.sessionToken);",
               "    }",
               "  }",
               "});"
@@ -257,7 +326,97 @@
       }
     },
     {
+      "name": "Auth - Refresh Token (GET, cookie/body friendly)",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Update stored tokens', function () {",
+              "  const responseBodyJson = pm.response.json();",
+              "  if (responseBodyJson && responseBodyJson.data) {",
+              "    if (responseBodyJson.data.accessToken) {",
+              "      pm.collectionVariables.set('accessToken', responseBodyJson.data.accessToken);",
+              "      pm.environment.set('accessToken', responseBodyJson.data.accessToken);",
+              "    }",
+              "    if (responseBodyJson.data.refreshToken) {",
+              "      pm.collectionVariables.set('refreshToken', responseBodyJson.data.refreshToken);",
+              "      pm.environment.set('refreshToken', responseBodyJson.data.refreshToken);",
+              "    }",
+              "    if (responseBodyJson.data.sessionToken) {",
+              "      pm.collectionVariables.set('sessionToken', responseBodyJson.data.sessionToken);",
+              "      pm.environment.set('sessionToken', responseBodyJson.data.sessionToken);",
+              "    }",
+              "  }",
+              "});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Authorization",
+            "value": "Bearer {{refreshToken}}"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/v1/auth/refresh-token",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "v1",
+            "auth",
+            "refresh-token"
+          ]
+        }
+      }
+    },
+    {
       "name": "Auth - Change Password",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Update stored tokens after password change', function () {",
+              "  const responseBodyJson = pm.response.json();",
+              "  if (responseBodyJson && responseBodyJson.data) {",
+              "    if (responseBodyJson.data.accessToken) {",
+              "      pm.collectionVariables.set('accessToken', responseBodyJson.data.accessToken);",
+              "      pm.environment.set('accessToken', responseBodyJson.data.accessToken);",
+              "    }",
+              "    if (responseBodyJson.data.refreshToken) {",
+              "      pm.collectionVariables.set('refreshToken', responseBodyJson.data.refreshToken);",
+              "      pm.environment.set('refreshToken', responseBodyJson.data.refreshToken);",
+              "    }",
+              "    if (responseBodyJson.data.token) {",
+              "      pm.collectionVariables.set('sessionToken', responseBodyJson.data.token);",
+              "      pm.environment.set('sessionToken', responseBodyJson.data.token);",
+              "    }",
+              "    if (responseBodyJson.data.sessionToken) {",
+              "      pm.collectionVariables.set('sessionToken', responseBodyJson.data.sessionToken);",
+              "      pm.environment.set('sessionToken', responseBodyJson.data.sessionToken);",
+              "    }",
+              "  }",
+              "});"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "POST",
         "header": [
@@ -461,6 +620,28 @@
     },
     {
       "name": "Auth - Logout",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('Status code is 200', function () {",
+              "  pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test('Clear stored auth tokens', function () {",
+              "  pm.collectionVariables.set('accessToken', '');",
+              "  pm.environment.set('accessToken', '');",
+              "  pm.collectionVariables.set('refreshToken', '');",
+              "  pm.environment.set('refreshToken', '');",
+              "  pm.collectionVariables.set('sessionToken', '');",
+              "  pm.environment.set('sessionToken', '');",
+              "});"
+            ]
+          }
+        }
+      ],
       "request": {
         "method": "POST",
         "header": [
