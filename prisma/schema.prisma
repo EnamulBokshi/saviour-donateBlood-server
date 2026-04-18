@@ -11,3 +11,40 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+enum BloodGroup {
+  A_POSITIVE
+  A_NEGATIVE
+  B_POSITIVE
+  B_NEGATIVE
+  AB_POSITIVE
+  AB_NEGATIVE
+  O_POSITIVE
+  O_NEGATIVE
+}
+
+
+model BloodRequest {
+  id String @id @default(uuid(7))
+  hospitalName String 
+  hospitalAddress String
+  patientName String
+  patientAge Int
+  patientBloodGroup BloodGroup
+  bloodUnits Int
+  isEmergency Boolean
+  contactNumber String
+  dateOfDonation DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([patientBloodGroup])
+  @@index([isEmergency])
+  @@map("blood_requests")
+}
+
+
+model Donor {
+id String @id @default(uuid(7))
+
+}

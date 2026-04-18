@@ -3,6 +3,7 @@ import cors from 'cors';
 import qs from 'qs';
 import path from 'node:path';
 import { envVar } from './config/envVar';
+import indexRouter from './route';
 
 const app:Application = express();
 
@@ -33,6 +34,7 @@ app.get("/health", (req: Request, res: Response) => {
      });
 })
 
+app.use("/api/v1", indexRouter);
 
 
 
