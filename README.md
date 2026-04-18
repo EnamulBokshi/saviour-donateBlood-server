@@ -9,6 +9,9 @@ This service provides:
 - Email/password authentication
 - Role-based signup for `USER` and `DONOR`
 - Donor profile creation during signup
+- Donor profile management
+- Blood request management
+- Donation management
 - Email verification OTP
 - Forgot password OTP flow
 - Password change and reset
@@ -121,6 +124,162 @@ This makes the API suitable for Flutter apps, where cookie handling can be incon
 - `SUPER_ADMIN`
 
 Signup is currently intended for `USER` and `DONOR`.
+
+## Domain API Reference
+
+### Donors
+
+Base path: `/api/v1/donors`
+
+#### 1. List donors
+
+`GET /api/v1/donors`
+
+Supports the shared query helper:
+
+- `searchTerm`
+- `page`
+- `limit`
+- `sortBy`
+- `sortOrder`
+- `fields`
+- direct filters like `bloodGroup`, `age`, `isAvailable`
+
+#### 2. Get donor by id
+
+`GET /api/v1/donors/:id`
+
+#### 3. Update donor
+
+`PATCH /api/v1/donors/:id`
+
+Allowed fields:
+
+- `fullName`
+- `age`
+- `bloodGroup`
+- `contactNumber`
+- `address`
+- `lastDonationDate`
+- `isAvailable`
+- `totalDonations`
+
+#### 4. Soft delete donor
+
+`DELETE /api/v1/donors/:id`
+
+Sets:
+
+- `isDeleted = true`
+- `deletedAt = now`
+- `isAvailable = false`
+
+---
+
+### Blood Requests
+
+Base path: `/api/v1/blood-requests`
+
+#### 1. List blood requests
+
+`GET /api/v1/blood-requests`
+
+Supports the shared query helper and filters like:
+
+- `patientBloodGroup`
+- `status`
+- `isEmergency`
+- `requestToDonorId`
+
+#### 2. Get blood request by id
+
+`GET /api/v1/blood-requests/:id`
+
+#### 3. Create blood request
+
+`POST /api/v1/blood-requests`
+
+Example body:
+
+```json
+{
+  "hospitalName": "City Hospital",
+  "hospitalAddress": "Dhaka",
+  "patientName": "Rahim",
+  "patientAge": 32,
+  "patientBloodGroup": "O_POSITIVE",
+  "bloodUnits": 2,
+  "isEmergency": true,
+  "contactNumber": "+8801700000000",
+  "dateOfDonation": "2026-05-01T00:00:00.000Z",
+  "description": "Urgent surgery",
+  "requestToDonorId": "donor-id-optional"
+}
+```
+
+The authenticated user becomes the request owner automatically.
+
+#### 4. Update blood request
+
+`PATCH /api/v1/blood-requests/:id`
+
+#### 5. Soft delete blood request
+
+`DELETE /api/v1/blood-requests/:id`
+
+---
+
+### Donations
+
+Base path: `/api/v1/donations`
+
+#### 1. List donations
+
+`GET /api/v1/donations`
+
+Supports the shared query helper and filters like:
+
+- `status`
+- `donorId`
+- `bloodRequestId`
+
+#### 2. Get donation by id
+
+`GET /api/v1/donations/:id`
+
+#### 3. Create donation
+
+`POST /api/v1/donations`
+
+Example body:
+
+```json
+{
+  "donorId": "donor-id",
+  "bloodRequestId": "request-id",
+  "donationDate": "2026-05-01T00:00:00.000Z",
+  "status": "CONFIRMED"
+}
+```
+
+Creating a donation will also:
+
+- increment donor `totalDonations`
+- update donor `lastDonationDate`
+- mark the related blood request as `FULFILLED`
+
+#### 4. Update donation
+
+`PATCH /api/v1/donations/:id`
+
+Allowed fields:
+
+- `donationDate`
+- `status`
+
+#### 5. Soft delete donation
+
+`DELETE /api/v1/donations/:id`
 
 ## Auth API Reference
 
@@ -555,6 +714,9 @@ It contains:
 - reset password
 - update profile image
 - logout
+- donor list and management requests
+- blood request requests
+- donation requests
 
 ## Deployment Notes
 
@@ -629,6 +791,9 @@ Password reset only works for email/password accounts.
 - `src/app.ts` — Express app configuration
 - `src/server.ts` — runtime bootstrap
 - `src/modules/auth` — auth controller/service/validation
+- `src/modules/donor` — donor management
+- `src/modules/bloodRequest` — blood request management
+- `src/modules/donation` — donation management
 - `src/templates` — email templates
 - `postman` — API collection
 
