@@ -20,34 +20,134 @@ export type DonorModel = runtime.Types.Result.DefaultSelection<Prisma.$DonorPayl
 
 export type AggregateDonor = {
   _count: DonorCountAggregateOutputType | null
+  _avg: DonorAvgAggregateOutputType | null
+  _sum: DonorSumAggregateOutputType | null
   _min: DonorMinAggregateOutputType | null
   _max: DonorMaxAggregateOutputType | null
 }
 
+export type DonorAvgAggregateOutputType = {
+  age: number | null
+  totalDonations: number | null
+}
+
+export type DonorSumAggregateOutputType = {
+  age: number | null
+  totalDonations: number | null
+}
+
 export type DonorMinAggregateOutputType = {
   id: string | null
+  fullName: string | null
+  age: number | null
+  bloodGroup: $Enums.BloodGroup | null
+  contactNumber: string | null
+  address: string | null
+  lastDonationDate: Date | null
+  isAvailable: boolean | null
+  totalDonations: number | null
+  createdAt: Date | null
+  updatedAt: Date | null
+  isDeleted: boolean | null
+  deletedAt: Date | null
+  userId: string | null
 }
 
 export type DonorMaxAggregateOutputType = {
   id: string | null
+  fullName: string | null
+  age: number | null
+  bloodGroup: $Enums.BloodGroup | null
+  contactNumber: string | null
+  address: string | null
+  lastDonationDate: Date | null
+  isAvailable: boolean | null
+  totalDonations: number | null
+  createdAt: Date | null
+  updatedAt: Date | null
+  isDeleted: boolean | null
+  deletedAt: Date | null
+  userId: string | null
 }
 
 export type DonorCountAggregateOutputType = {
   id: number
+  fullName: number
+  age: number
+  bloodGroup: number
+  contactNumber: number
+  address: number
+  lastDonationDate: number
+  isAvailable: number
+  totalDonations: number
+  createdAt: number
+  updatedAt: number
+  isDeleted: number
+  deletedAt: number
+  userId: number
   _all: number
 }
 
 
+export type DonorAvgAggregateInputType = {
+  age?: true
+  totalDonations?: true
+}
+
+export type DonorSumAggregateInputType = {
+  age?: true
+  totalDonations?: true
+}
+
 export type DonorMinAggregateInputType = {
   id?: true
+  fullName?: true
+  age?: true
+  bloodGroup?: true
+  contactNumber?: true
+  address?: true
+  lastDonationDate?: true
+  isAvailable?: true
+  totalDonations?: true
+  createdAt?: true
+  updatedAt?: true
+  isDeleted?: true
+  deletedAt?: true
+  userId?: true
 }
 
 export type DonorMaxAggregateInputType = {
   id?: true
+  fullName?: true
+  age?: true
+  bloodGroup?: true
+  contactNumber?: true
+  address?: true
+  lastDonationDate?: true
+  isAvailable?: true
+  totalDonations?: true
+  createdAt?: true
+  updatedAt?: true
+  isDeleted?: true
+  deletedAt?: true
+  userId?: true
 }
 
 export type DonorCountAggregateInputType = {
   id?: true
+  fullName?: true
+  age?: true
+  bloodGroup?: true
+  contactNumber?: true
+  address?: true
+  lastDonationDate?: true
+  isAvailable?: true
+  totalDonations?: true
+  createdAt?: true
+  updatedAt?: true
+  isDeleted?: true
+  deletedAt?: true
+  userId?: true
   _all?: true
 }
 
@@ -89,6 +189,18 @@ export type DonorAggregateArgs<ExtArgs extends runtime.Types.Extensions.Internal
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: DonorAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: DonorSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: DonorMinAggregateInputType
@@ -119,13 +231,30 @@ export type DonorGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   _count?: DonorCountAggregateInputType | true
+  _avg?: DonorAvgAggregateInputType
+  _sum?: DonorSumAggregateInputType
   _min?: DonorMinAggregateInputType
   _max?: DonorMaxAggregateInputType
 }
 
 export type DonorGroupByOutputType = {
   id: string
+  fullName: string
+  age: number
+  bloodGroup: $Enums.BloodGroup
+  contactNumber: string
+  address: string
+  lastDonationDate: Date
+  isAvailable: boolean
+  totalDonations: number
+  createdAt: Date
+  updatedAt: Date
+  isDeleted: boolean
+  deletedAt: Date | null
+  userId: string
   _count: DonorCountAggregateOutputType | null
+  _avg: DonorAvgAggregateOutputType | null
+  _sum: DonorSumAggregateOutputType | null
   _min: DonorMinAggregateOutputType | null
   _max: DonorMaxAggregateOutputType | null
 }
@@ -150,24 +279,87 @@ export type DonorWhereInput = {
   OR?: Prisma.DonorWhereInput[]
   NOT?: Prisma.DonorWhereInput | Prisma.DonorWhereInput[]
   id?: Prisma.StringFilter<"Donor"> | string
+  fullName?: Prisma.StringFilter<"Donor"> | string
+  age?: Prisma.IntFilter<"Donor"> | number
+  bloodGroup?: Prisma.EnumBloodGroupFilter<"Donor"> | $Enums.BloodGroup
+  contactNumber?: Prisma.StringFilter<"Donor"> | string
+  address?: Prisma.StringFilter<"Donor"> | string
+  lastDonationDate?: Prisma.DateTimeFilter<"Donor"> | Date | string
+  isAvailable?: Prisma.BoolFilter<"Donor"> | boolean
+  totalDonations?: Prisma.IntFilter<"Donor"> | number
+  createdAt?: Prisma.DateTimeFilter<"Donor"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Donor"> | Date | string
+  isDeleted?: Prisma.BoolFilter<"Donor"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"Donor"> | Date | string | null
+  userId?: Prisma.StringFilter<"Donor"> | string
+  bloodRequests?: Prisma.BloodRequestListRelationFilter
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  donations?: Prisma.DonationListRelationFilter
 }
 
 export type DonorOrderByWithRelationInput = {
   id?: Prisma.SortOrder
+  fullName?: Prisma.SortOrder
+  age?: Prisma.SortOrder
+  bloodGroup?: Prisma.SortOrder
+  contactNumber?: Prisma.SortOrder
+  address?: Prisma.SortOrder
+  lastDonationDate?: Prisma.SortOrder
+  isAvailable?: Prisma.SortOrder
+  totalDonations?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  userId?: Prisma.SortOrder
+  bloodRequests?: Prisma.BloodRequestOrderByRelationAggregateInput
+  user?: Prisma.UserOrderByWithRelationInput
+  donations?: Prisma.DonationOrderByRelationAggregateInput
 }
 
 export type DonorWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  userId?: string
   AND?: Prisma.DonorWhereInput | Prisma.DonorWhereInput[]
   OR?: Prisma.DonorWhereInput[]
   NOT?: Prisma.DonorWhereInput | Prisma.DonorWhereInput[]
-}, "id">
+  fullName?: Prisma.StringFilter<"Donor"> | string
+  age?: Prisma.IntFilter<"Donor"> | number
+  bloodGroup?: Prisma.EnumBloodGroupFilter<"Donor"> | $Enums.BloodGroup
+  contactNumber?: Prisma.StringFilter<"Donor"> | string
+  address?: Prisma.StringFilter<"Donor"> | string
+  lastDonationDate?: Prisma.DateTimeFilter<"Donor"> | Date | string
+  isAvailable?: Prisma.BoolFilter<"Donor"> | boolean
+  totalDonations?: Prisma.IntFilter<"Donor"> | number
+  createdAt?: Prisma.DateTimeFilter<"Donor"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Donor"> | Date | string
+  isDeleted?: Prisma.BoolFilter<"Donor"> | boolean
+  deletedAt?: Prisma.DateTimeNullableFilter<"Donor"> | Date | string | null
+  bloodRequests?: Prisma.BloodRequestListRelationFilter
+  user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  donations?: Prisma.DonationListRelationFilter
+}, "id" | "userId">
 
 export type DonorOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
+  fullName?: Prisma.SortOrder
+  age?: Prisma.SortOrder
+  bloodGroup?: Prisma.SortOrder
+  contactNumber?: Prisma.SortOrder
+  address?: Prisma.SortOrder
+  lastDonationDate?: Prisma.SortOrder
+  isAvailable?: Prisma.SortOrder
+  totalDonations?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  userId?: Prisma.SortOrder
   _count?: Prisma.DonorCountOrderByAggregateInput
+  _avg?: Prisma.DonorAvgOrderByAggregateInput
   _max?: Prisma.DonorMaxOrderByAggregateInput
   _min?: Prisma.DonorMinOrderByAggregateInput
+  _sum?: Prisma.DonorSumOrderByAggregateInput
 }
 
 export type DonorScalarWhereWithAggregatesInput = {
@@ -175,73 +367,694 @@ export type DonorScalarWhereWithAggregatesInput = {
   OR?: Prisma.DonorScalarWhereWithAggregatesInput[]
   NOT?: Prisma.DonorScalarWhereWithAggregatesInput | Prisma.DonorScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"Donor"> | string
+  fullName?: Prisma.StringWithAggregatesFilter<"Donor"> | string
+  age?: Prisma.IntWithAggregatesFilter<"Donor"> | number
+  bloodGroup?: Prisma.EnumBloodGroupWithAggregatesFilter<"Donor"> | $Enums.BloodGroup
+  contactNumber?: Prisma.StringWithAggregatesFilter<"Donor"> | string
+  address?: Prisma.StringWithAggregatesFilter<"Donor"> | string
+  lastDonationDate?: Prisma.DateTimeWithAggregatesFilter<"Donor"> | Date | string
+  isAvailable?: Prisma.BoolWithAggregatesFilter<"Donor"> | boolean
+  totalDonations?: Prisma.IntWithAggregatesFilter<"Donor"> | number
+  createdAt?: Prisma.DateTimeWithAggregatesFilter<"Donor"> | Date | string
+  updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Donor"> | Date | string
+  isDeleted?: Prisma.BoolWithAggregatesFilter<"Donor"> | boolean
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Donor"> | Date | string | null
+  userId?: Prisma.StringWithAggregatesFilter<"Donor"> | string
 }
 
 export type DonorCreateInput = {
   id?: string
+  fullName: string
+  age: number
+  bloodGroup: $Enums.BloodGroup
+  contactNumber: string
+  address: string
+  lastDonationDate: Date | string
+  isAvailable?: boolean
+  totalDonations?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  bloodRequests?: Prisma.BloodRequestCreateNestedManyWithoutRequestToDonorInput
+  user: Prisma.UserCreateNestedOneWithoutDonorInput
+  donations?: Prisma.DonationCreateNestedManyWithoutDonorInput
 }
 
 export type DonorUncheckedCreateInput = {
   id?: string
+  fullName: string
+  age: number
+  bloodGroup: $Enums.BloodGroup
+  contactNumber: string
+  address: string
+  lastDonationDate: Date | string
+  isAvailable?: boolean
+  totalDonations?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  userId: string
+  bloodRequests?: Prisma.BloodRequestUncheckedCreateNestedManyWithoutRequestToDonorInput
+  donations?: Prisma.DonationUncheckedCreateNestedManyWithoutDonorInput
 }
 
 export type DonorUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  age?: Prisma.IntFieldUpdateOperationsInput | number
+  bloodGroup?: Prisma.EnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup
+  contactNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  lastDonationDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalDonations?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bloodRequests?: Prisma.BloodRequestUpdateManyWithoutRequestToDonorNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutDonorNestedInput
+  donations?: Prisma.DonationUpdateManyWithoutDonorNestedInput
 }
 
 export type DonorUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  age?: Prisma.IntFieldUpdateOperationsInput | number
+  bloodGroup?: Prisma.EnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup
+  contactNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  lastDonationDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalDonations?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  bloodRequests?: Prisma.BloodRequestUncheckedUpdateManyWithoutRequestToDonorNestedInput
+  donations?: Prisma.DonationUncheckedUpdateManyWithoutDonorNestedInput
 }
 
 export type DonorCreateManyInput = {
   id?: string
+  fullName: string
+  age: number
+  bloodGroup: $Enums.BloodGroup
+  contactNumber: string
+  address: string
+  lastDonationDate: Date | string
+  isAvailable?: boolean
+  totalDonations?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  userId: string
 }
 
 export type DonorUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  age?: Prisma.IntFieldUpdateOperationsInput | number
+  bloodGroup?: Prisma.EnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup
+  contactNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  lastDonationDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalDonations?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type DonorUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  age?: Prisma.IntFieldUpdateOperationsInput | number
+  bloodGroup?: Prisma.EnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup
+  contactNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  lastDonationDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalDonations?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type DonorNullableScalarRelationFilter = {
+  is?: Prisma.DonorWhereInput | null
+  isNot?: Prisma.DonorWhereInput | null
 }
 
 export type DonorCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  fullName?: Prisma.SortOrder
+  age?: Prisma.SortOrder
+  bloodGroup?: Prisma.SortOrder
+  contactNumber?: Prisma.SortOrder
+  address?: Prisma.SortOrder
+  lastDonationDate?: Prisma.SortOrder
+  isAvailable?: Prisma.SortOrder
+  totalDonations?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
+}
+
+export type DonorAvgOrderByAggregateInput = {
+  age?: Prisma.SortOrder
+  totalDonations?: Prisma.SortOrder
 }
 
 export type DonorMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  fullName?: Prisma.SortOrder
+  age?: Prisma.SortOrder
+  bloodGroup?: Prisma.SortOrder
+  contactNumber?: Prisma.SortOrder
+  address?: Prisma.SortOrder
+  lastDonationDate?: Prisma.SortOrder
+  isAvailable?: Prisma.SortOrder
+  totalDonations?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
 }
 
 export type DonorMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  fullName?: Prisma.SortOrder
+  age?: Prisma.SortOrder
+  bloodGroup?: Prisma.SortOrder
+  contactNumber?: Prisma.SortOrder
+  address?: Prisma.SortOrder
+  lastDonationDate?: Prisma.SortOrder
+  isAvailable?: Prisma.SortOrder
+  totalDonations?: Prisma.SortOrder
+  createdAt?: Prisma.SortOrder
+  updatedAt?: Prisma.SortOrder
+  isDeleted?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
 }
 
+export type DonorSumOrderByAggregateInput = {
+  age?: Prisma.SortOrder
+  totalDonations?: Prisma.SortOrder
+}
+
+export type DonorScalarRelationFilter = {
+  is?: Prisma.DonorWhereInput
+  isNot?: Prisma.DonorWhereInput
+}
+
+export type DonorCreateNestedOneWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.DonorCreateWithoutUserInput, Prisma.DonorUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.DonorCreateOrConnectWithoutUserInput
+  connect?: Prisma.DonorWhereUniqueInput
+}
+
+export type DonorUncheckedCreateNestedOneWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.DonorCreateWithoutUserInput, Prisma.DonorUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.DonorCreateOrConnectWithoutUserInput
+  connect?: Prisma.DonorWhereUniqueInput
+}
+
+export type DonorUpdateOneWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.DonorCreateWithoutUserInput, Prisma.DonorUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.DonorCreateOrConnectWithoutUserInput
+  upsert?: Prisma.DonorUpsertWithoutUserInput
+  disconnect?: Prisma.DonorWhereInput | boolean
+  delete?: Prisma.DonorWhereInput | boolean
+  connect?: Prisma.DonorWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DonorUpdateToOneWithWhereWithoutUserInput, Prisma.DonorUpdateWithoutUserInput>, Prisma.DonorUncheckedUpdateWithoutUserInput>
+}
+
+export type DonorUncheckedUpdateOneWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.DonorCreateWithoutUserInput, Prisma.DonorUncheckedCreateWithoutUserInput>
+  connectOrCreate?: Prisma.DonorCreateOrConnectWithoutUserInput
+  upsert?: Prisma.DonorUpsertWithoutUserInput
+  disconnect?: Prisma.DonorWhereInput | boolean
+  delete?: Prisma.DonorWhereInput | boolean
+  connect?: Prisma.DonorWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DonorUpdateToOneWithWhereWithoutUserInput, Prisma.DonorUpdateWithoutUserInput>, Prisma.DonorUncheckedUpdateWithoutUserInput>
+}
+
+export type DonorCreateNestedOneWithoutBloodRequestsInput = {
+  create?: Prisma.XOR<Prisma.DonorCreateWithoutBloodRequestsInput, Prisma.DonorUncheckedCreateWithoutBloodRequestsInput>
+  connectOrCreate?: Prisma.DonorCreateOrConnectWithoutBloodRequestsInput
+  connect?: Prisma.DonorWhereUniqueInput
+}
+
+export type DonorUpdateOneWithoutBloodRequestsNestedInput = {
+  create?: Prisma.XOR<Prisma.DonorCreateWithoutBloodRequestsInput, Prisma.DonorUncheckedCreateWithoutBloodRequestsInput>
+  connectOrCreate?: Prisma.DonorCreateOrConnectWithoutBloodRequestsInput
+  upsert?: Prisma.DonorUpsertWithoutBloodRequestsInput
+  disconnect?: Prisma.DonorWhereInput | boolean
+  delete?: Prisma.DonorWhereInput | boolean
+  connect?: Prisma.DonorWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DonorUpdateToOneWithWhereWithoutBloodRequestsInput, Prisma.DonorUpdateWithoutBloodRequestsInput>, Prisma.DonorUncheckedUpdateWithoutBloodRequestsInput>
+}
+
+export type DonorCreateNestedOneWithoutDonationsInput = {
+  create?: Prisma.XOR<Prisma.DonorCreateWithoutDonationsInput, Prisma.DonorUncheckedCreateWithoutDonationsInput>
+  connectOrCreate?: Prisma.DonorCreateOrConnectWithoutDonationsInput
+  connect?: Prisma.DonorWhereUniqueInput
+}
+
+export type DonorUpdateOneRequiredWithoutDonationsNestedInput = {
+  create?: Prisma.XOR<Prisma.DonorCreateWithoutDonationsInput, Prisma.DonorUncheckedCreateWithoutDonationsInput>
+  connectOrCreate?: Prisma.DonorCreateOrConnectWithoutDonationsInput
+  upsert?: Prisma.DonorUpsertWithoutDonationsInput
+  connect?: Prisma.DonorWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DonorUpdateToOneWithWhereWithoutDonationsInput, Prisma.DonorUpdateWithoutDonationsInput>, Prisma.DonorUncheckedUpdateWithoutDonationsInput>
+}
+
+export type DonorCreateWithoutUserInput = {
+  id?: string
+  fullName: string
+  age: number
+  bloodGroup: $Enums.BloodGroup
+  contactNumber: string
+  address: string
+  lastDonationDate: Date | string
+  isAvailable?: boolean
+  totalDonations?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  bloodRequests?: Prisma.BloodRequestCreateNestedManyWithoutRequestToDonorInput
+  donations?: Prisma.DonationCreateNestedManyWithoutDonorInput
+}
+
+export type DonorUncheckedCreateWithoutUserInput = {
+  id?: string
+  fullName: string
+  age: number
+  bloodGroup: $Enums.BloodGroup
+  contactNumber: string
+  address: string
+  lastDonationDate: Date | string
+  isAvailable?: boolean
+  totalDonations?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  bloodRequests?: Prisma.BloodRequestUncheckedCreateNestedManyWithoutRequestToDonorInput
+  donations?: Prisma.DonationUncheckedCreateNestedManyWithoutDonorInput
+}
+
+export type DonorCreateOrConnectWithoutUserInput = {
+  where: Prisma.DonorWhereUniqueInput
+  create: Prisma.XOR<Prisma.DonorCreateWithoutUserInput, Prisma.DonorUncheckedCreateWithoutUserInput>
+}
+
+export type DonorUpsertWithoutUserInput = {
+  update: Prisma.XOR<Prisma.DonorUpdateWithoutUserInput, Prisma.DonorUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.DonorCreateWithoutUserInput, Prisma.DonorUncheckedCreateWithoutUserInput>
+  where?: Prisma.DonorWhereInput
+}
+
+export type DonorUpdateToOneWithWhereWithoutUserInput = {
+  where?: Prisma.DonorWhereInput
+  data: Prisma.XOR<Prisma.DonorUpdateWithoutUserInput, Prisma.DonorUncheckedUpdateWithoutUserInput>
+}
+
+export type DonorUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  age?: Prisma.IntFieldUpdateOperationsInput | number
+  bloodGroup?: Prisma.EnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup
+  contactNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  lastDonationDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalDonations?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bloodRequests?: Prisma.BloodRequestUpdateManyWithoutRequestToDonorNestedInput
+  donations?: Prisma.DonationUpdateManyWithoutDonorNestedInput
+}
+
+export type DonorUncheckedUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  age?: Prisma.IntFieldUpdateOperationsInput | number
+  bloodGroup?: Prisma.EnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup
+  contactNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  lastDonationDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalDonations?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bloodRequests?: Prisma.BloodRequestUncheckedUpdateManyWithoutRequestToDonorNestedInput
+  donations?: Prisma.DonationUncheckedUpdateManyWithoutDonorNestedInput
+}
+
+export type DonorCreateWithoutBloodRequestsInput = {
+  id?: string
+  fullName: string
+  age: number
+  bloodGroup: $Enums.BloodGroup
+  contactNumber: string
+  address: string
+  lastDonationDate: Date | string
+  isAvailable?: boolean
+  totalDonations?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  user: Prisma.UserCreateNestedOneWithoutDonorInput
+  donations?: Prisma.DonationCreateNestedManyWithoutDonorInput
+}
+
+export type DonorUncheckedCreateWithoutBloodRequestsInput = {
+  id?: string
+  fullName: string
+  age: number
+  bloodGroup: $Enums.BloodGroup
+  contactNumber: string
+  address: string
+  lastDonationDate: Date | string
+  isAvailable?: boolean
+  totalDonations?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  userId: string
+  donations?: Prisma.DonationUncheckedCreateNestedManyWithoutDonorInput
+}
+
+export type DonorCreateOrConnectWithoutBloodRequestsInput = {
+  where: Prisma.DonorWhereUniqueInput
+  create: Prisma.XOR<Prisma.DonorCreateWithoutBloodRequestsInput, Prisma.DonorUncheckedCreateWithoutBloodRequestsInput>
+}
+
+export type DonorUpsertWithoutBloodRequestsInput = {
+  update: Prisma.XOR<Prisma.DonorUpdateWithoutBloodRequestsInput, Prisma.DonorUncheckedUpdateWithoutBloodRequestsInput>
+  create: Prisma.XOR<Prisma.DonorCreateWithoutBloodRequestsInput, Prisma.DonorUncheckedCreateWithoutBloodRequestsInput>
+  where?: Prisma.DonorWhereInput
+}
+
+export type DonorUpdateToOneWithWhereWithoutBloodRequestsInput = {
+  where?: Prisma.DonorWhereInput
+  data: Prisma.XOR<Prisma.DonorUpdateWithoutBloodRequestsInput, Prisma.DonorUncheckedUpdateWithoutBloodRequestsInput>
+}
+
+export type DonorUpdateWithoutBloodRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  age?: Prisma.IntFieldUpdateOperationsInput | number
+  bloodGroup?: Prisma.EnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup
+  contactNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  lastDonationDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalDonations?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  user?: Prisma.UserUpdateOneRequiredWithoutDonorNestedInput
+  donations?: Prisma.DonationUpdateManyWithoutDonorNestedInput
+}
+
+export type DonorUncheckedUpdateWithoutBloodRequestsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  age?: Prisma.IntFieldUpdateOperationsInput | number
+  bloodGroup?: Prisma.EnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup
+  contactNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  lastDonationDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalDonations?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  donations?: Prisma.DonationUncheckedUpdateManyWithoutDonorNestedInput
+}
+
+export type DonorCreateWithoutDonationsInput = {
+  id?: string
+  fullName: string
+  age: number
+  bloodGroup: $Enums.BloodGroup
+  contactNumber: string
+  address: string
+  lastDonationDate: Date | string
+  isAvailable?: boolean
+  totalDonations?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  bloodRequests?: Prisma.BloodRequestCreateNestedManyWithoutRequestToDonorInput
+  user: Prisma.UserCreateNestedOneWithoutDonorInput
+}
+
+export type DonorUncheckedCreateWithoutDonationsInput = {
+  id?: string
+  fullName: string
+  age: number
+  bloodGroup: $Enums.BloodGroup
+  contactNumber: string
+  address: string
+  lastDonationDate: Date | string
+  isAvailable?: boolean
+  totalDonations?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  isDeleted?: boolean
+  deletedAt?: Date | string | null
+  userId: string
+  bloodRequests?: Prisma.BloodRequestUncheckedCreateNestedManyWithoutRequestToDonorInput
+}
+
+export type DonorCreateOrConnectWithoutDonationsInput = {
+  where: Prisma.DonorWhereUniqueInput
+  create: Prisma.XOR<Prisma.DonorCreateWithoutDonationsInput, Prisma.DonorUncheckedCreateWithoutDonationsInput>
+}
+
+export type DonorUpsertWithoutDonationsInput = {
+  update: Prisma.XOR<Prisma.DonorUpdateWithoutDonationsInput, Prisma.DonorUncheckedUpdateWithoutDonationsInput>
+  create: Prisma.XOR<Prisma.DonorCreateWithoutDonationsInput, Prisma.DonorUncheckedCreateWithoutDonationsInput>
+  where?: Prisma.DonorWhereInput
+}
+
+export type DonorUpdateToOneWithWhereWithoutDonationsInput = {
+  where?: Prisma.DonorWhereInput
+  data: Prisma.XOR<Prisma.DonorUpdateWithoutDonationsInput, Prisma.DonorUncheckedUpdateWithoutDonationsInput>
+}
+
+export type DonorUpdateWithoutDonationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  age?: Prisma.IntFieldUpdateOperationsInput | number
+  bloodGroup?: Prisma.EnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup
+  contactNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  lastDonationDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalDonations?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  bloodRequests?: Prisma.BloodRequestUpdateManyWithoutRequestToDonorNestedInput
+  user?: Prisma.UserUpdateOneRequiredWithoutDonorNestedInput
+}
+
+export type DonorUncheckedUpdateWithoutDonationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  age?: Prisma.IntFieldUpdateOperationsInput | number
+  bloodGroup?: Prisma.EnumBloodGroupFieldUpdateOperationsInput | $Enums.BloodGroup
+  contactNumber?: Prisma.StringFieldUpdateOperationsInput | string
+  address?: Prisma.StringFieldUpdateOperationsInput | string
+  lastDonationDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isAvailable?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  totalDonations?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  isDeleted?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  bloodRequests?: Prisma.BloodRequestUncheckedUpdateManyWithoutRequestToDonorNestedInput
+}
+
+
+/**
+ * Count Type DonorCountOutputType
+ */
+
+export type DonorCountOutputType = {
+  bloodRequests: number
+  donations: number
+}
+
+export type DonorCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  bloodRequests?: boolean | DonorCountOutputTypeCountBloodRequestsArgs
+  donations?: boolean | DonorCountOutputTypeCountDonationsArgs
+}
+
+/**
+ * DonorCountOutputType without action
+ */
+export type DonorCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the DonorCountOutputType
+   */
+  select?: Prisma.DonorCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * DonorCountOutputType without action
+ */
+export type DonorCountOutputTypeCountBloodRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.BloodRequestWhereInput
+}
+
+/**
+ * DonorCountOutputType without action
+ */
+export type DonorCountOutputTypeCountDonationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.DonationWhereInput
+}
 
 
 export type DonorSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  fullName?: boolean
+  age?: boolean
+  bloodGroup?: boolean
+  contactNumber?: boolean
+  address?: boolean
+  lastDonationDate?: boolean
+  isAvailable?: boolean
+  totalDonations?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
+  userId?: boolean
+  bloodRequests?: boolean | Prisma.Donor$bloodRequestsArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  donations?: boolean | Prisma.Donor$donationsArgs<ExtArgs>
+  _count?: boolean | Prisma.DonorCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["donor"]>
 
 export type DonorSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  fullName?: boolean
+  age?: boolean
+  bloodGroup?: boolean
+  contactNumber?: boolean
+  address?: boolean
+  lastDonationDate?: boolean
+  isAvailable?: boolean
+  totalDonations?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
+  userId?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["donor"]>
 
 export type DonorSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
+  fullName?: boolean
+  age?: boolean
+  bloodGroup?: boolean
+  contactNumber?: boolean
+  address?: boolean
+  lastDonationDate?: boolean
+  isAvailable?: boolean
+  totalDonations?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
+  userId?: boolean
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["donor"]>
 
 export type DonorSelectScalar = {
   id?: boolean
+  fullName?: boolean
+  age?: boolean
+  bloodGroup?: boolean
+  contactNumber?: boolean
+  address?: boolean
+  lastDonationDate?: boolean
+  isAvailable?: boolean
+  totalDonations?: boolean
+  createdAt?: boolean
+  updatedAt?: boolean
+  isDeleted?: boolean
+  deletedAt?: boolean
+  userId?: boolean
 }
 
-export type DonorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id", ExtArgs["result"]["donor"]>
+export type DonorOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "fullName" | "age" | "bloodGroup" | "contactNumber" | "address" | "lastDonationDate" | "isAvailable" | "totalDonations" | "createdAt" | "updatedAt" | "isDeleted" | "deletedAt" | "userId", ExtArgs["result"]["donor"]>
+export type DonorInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  bloodRequests?: boolean | Prisma.Donor$bloodRequestsArgs<ExtArgs>
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  donations?: boolean | Prisma.Donor$donationsArgs<ExtArgs>
+  _count?: boolean | Prisma.DonorCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type DonorIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
+export type DonorIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+}
 
 export type $DonorPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Donor"
-  objects: {}
+  objects: {
+    bloodRequests: Prisma.$BloodRequestPayload<ExtArgs>[]
+    user: Prisma.$UserPayload<ExtArgs>
+    donations: Prisma.$DonationPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
+    fullName: string
+    age: number
+    bloodGroup: $Enums.BloodGroup
+    contactNumber: string
+    address: string
+    lastDonationDate: Date
+    isAvailable: boolean
+    totalDonations: number
+    createdAt: Date
+    updatedAt: Date
+    isDeleted: boolean
+    deletedAt: Date | null
+    userId: string
   }, ExtArgs["result"]["donor"]>
   composites: {}
 }
@@ -636,6 +1449,9 @@ readonly fields: DonorFieldRefs;
  */
 export interface Prisma__DonorClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  bloodRequests<T extends Prisma.Donor$bloodRequestsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Donor$bloodRequestsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$BloodRequestPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  donations<T extends Prisma.Donor$donationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Donor$donationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DonationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -666,6 +1482,19 @@ export interface Prisma__DonorClient<T, Null = never, ExtArgs extends runtime.Ty
  */
 export interface DonorFieldRefs {
   readonly id: Prisma.FieldRef<"Donor", 'String'>
+  readonly fullName: Prisma.FieldRef<"Donor", 'String'>
+  readonly age: Prisma.FieldRef<"Donor", 'Int'>
+  readonly bloodGroup: Prisma.FieldRef<"Donor", 'BloodGroup'>
+  readonly contactNumber: Prisma.FieldRef<"Donor", 'String'>
+  readonly address: Prisma.FieldRef<"Donor", 'String'>
+  readonly lastDonationDate: Prisma.FieldRef<"Donor", 'DateTime'>
+  readonly isAvailable: Prisma.FieldRef<"Donor", 'Boolean'>
+  readonly totalDonations: Prisma.FieldRef<"Donor", 'Int'>
+  readonly createdAt: Prisma.FieldRef<"Donor", 'DateTime'>
+  readonly updatedAt: Prisma.FieldRef<"Donor", 'DateTime'>
+  readonly isDeleted: Prisma.FieldRef<"Donor", 'Boolean'>
+  readonly deletedAt: Prisma.FieldRef<"Donor", 'DateTime'>
+  readonly userId: Prisma.FieldRef<"Donor", 'String'>
 }
     
 
@@ -682,6 +1511,10 @@ export type DonorFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Interna
    * Omit specific fields from the Donor
    */
   omit?: Prisma.DonorOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DonorInclude<ExtArgs> | null
   /**
    * Filter, which Donor to fetch.
    */
@@ -701,6 +1534,10 @@ export type DonorFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extensions.
    */
   omit?: Prisma.DonorOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DonorInclude<ExtArgs> | null
+  /**
    * Filter, which Donor to fetch.
    */
   where: Prisma.DonorWhereUniqueInput
@@ -718,6 +1555,10 @@ export type DonorFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Omit specific fields from the Donor
    */
   omit?: Prisma.DonorOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DonorInclude<ExtArgs> | null
   /**
    * Filter, which Donor to fetch.
    */
@@ -767,6 +1608,10 @@ export type DonorFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions.I
    */
   omit?: Prisma.DonorOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DonorInclude<ExtArgs> | null
+  /**
    * Filter, which Donor to fetch.
    */
   where?: Prisma.DonorWhereInput
@@ -814,6 +1659,10 @@ export type DonorFindManyArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the Donor
    */
   omit?: Prisma.DonorOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DonorInclude<ExtArgs> | null
   /**
    * Filter, which Donors to fetch.
    */
@@ -863,9 +1712,13 @@ export type DonorCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   omit?: Prisma.DonorOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DonorInclude<ExtArgs> | null
+  /**
    * The data needed to create a Donor.
    */
-  data?: Prisma.XOR<Prisma.DonorCreateInput, Prisma.DonorUncheckedCreateInput>
+  data: Prisma.XOR<Prisma.DonorCreateInput, Prisma.DonorUncheckedCreateInput>
 }
 
 /**
@@ -896,6 +1749,10 @@ export type DonorCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extension
    */
   data: Prisma.DonorCreateManyInput | Prisma.DonorCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DonorIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -910,6 +1767,10 @@ export type DonorUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Omit specific fields from the Donor
    */
   omit?: Prisma.DonorOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DonorInclude<ExtArgs> | null
   /**
    * The data needed to update a Donor.
    */
@@ -962,6 +1823,10 @@ export type DonorUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extension
    * Limit how many Donors to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DonorIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -976,6 +1841,10 @@ export type DonorUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    * Omit specific fields from the Donor
    */
   omit?: Prisma.DonorOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DonorInclude<ExtArgs> | null
   /**
    * The filter to search for the Donor to update in case it exists.
    */
@@ -1003,6 +1872,10 @@ export type DonorDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
    */
   omit?: Prisma.DonorOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DonorInclude<ExtArgs> | null
+  /**
    * Filter which Donor to delete.
    */
   where: Prisma.DonorWhereUniqueInput
@@ -1023,6 +1896,54 @@ export type DonorDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
 }
 
 /**
+ * Donor.bloodRequests
+ */
+export type Donor$bloodRequestsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the BloodRequest
+   */
+  select?: Prisma.BloodRequestSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the BloodRequest
+   */
+  omit?: Prisma.BloodRequestOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.BloodRequestInclude<ExtArgs> | null
+  where?: Prisma.BloodRequestWhereInput
+  orderBy?: Prisma.BloodRequestOrderByWithRelationInput | Prisma.BloodRequestOrderByWithRelationInput[]
+  cursor?: Prisma.BloodRequestWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.BloodRequestScalarFieldEnum | Prisma.BloodRequestScalarFieldEnum[]
+}
+
+/**
+ * Donor.donations
+ */
+export type Donor$donationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Donation
+   */
+  select?: Prisma.DonationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Donation
+   */
+  omit?: Prisma.DonationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DonationInclude<ExtArgs> | null
+  where?: Prisma.DonationWhereInput
+  orderBy?: Prisma.DonationOrderByWithRelationInput | Prisma.DonationOrderByWithRelationInput[]
+  cursor?: Prisma.DonationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.DonationScalarFieldEnum | Prisma.DonationScalarFieldEnum[]
+}
+
+/**
  * Donor without action
  */
 export type DonorDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1034,4 +1955,8 @@ export type DonorDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
    * Omit specific fields from the Donor
    */
   omit?: Prisma.DonorOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.DonorInclude<ExtArgs> | null
 }

@@ -5,11 +5,123 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  output = "../src/generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum UserRole {
+  ADMIN
+  DONOR
+  USER
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  BANNED
+}
+
+enum RequestStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  FULFILLED
+  CANCELLED
+}
+
+enum AccountProvider {
+  GOOGLE
+  FACEBOOK
+  GITHUB
+  EMAIL
+  CREDENTIALS
+}
+
+enum DonationStatus {
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+  REJECTED
+  PENDING
+}
+
+model User {
+  id            String         @id
+  name          String
+  email         String
+  emailVerified Boolean        @default(false)
+  image         String?
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  role          UserRole       @default(USER)
+  status        UserStatus     @default(ACTIVE)
+  isDeleted     Boolean        @default(false)
+  deletedAt     DateTime?
+  sessions      Session[]
+  accounts      Account[]
+
+  bloodRequests BloodRequest[]
+  donor         Donor?
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([identifier])
+  @@map("verification")
 }
 
 enum BloodGroup {
@@ -23,28 +135,83 @@ enum BloodGroup {
   O_NEGATIVE
 }
 
-
 model BloodRequest {
-  id String @id @default(uuid(7))
-  hospitalName String 
-  hospitalAddress String
-  patientName String
-  patientAge Int
+  id                String     @id @default(uuid(7))
+  hospitalName      String
+  hospitalAddress   String
+  patientName       String
+  patientAge        Int
   patientBloodGroup BloodGroup
-  bloodUnits Int
-  isEmergency Boolean
-  contactNumber String
-  dateOfDonation DateTime
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  bloodUnits        Int
 
+  isEmergency    Boolean
+  contactNumber  String
+  dateOfDonation DateTime
+  description    String?
+  status         RequestStatus @default(PENDING)
+  // relations
+  userId         String
+  user           User?         @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  donationId     Donation?
+  createdAt      DateTime      @default(now())
+  updatedAt      DateTime      @updatedAt
+  requestToDonorId  String?
+  requestToDonor    Donor?      @relation("RequestToDonor", fields: [requestToDonorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  isDeleted      Boolean       @default(false)
+  deletedAt      DateTime?
   @@index([patientBloodGroup])
   @@index([isEmergency])
+  @@index([status])
+  @@index([requestToDonorId])
+  @@index([userId])
   @@map("blood_requests")
 }
 
-
 model Donor {
-id String @id @default(uuid(7))
+  id               String     @id @default(uuid(7))
+  fullName         String
+  age              Int
+  bloodGroup       BloodGroup
+  contactNumber    String
+  address          String
+  lastDonationDate DateTime
+  isAvailable      Boolean    @default(true)
+  totalDonations   Int        @default(0)
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+  isDeleted        Boolean    @default(false)
+  deletedAt        DateTime?
+  // relations
+  bloodRequests    BloodRequest[] @relation("RequestToDonor")
+  userId           String     @unique
+  user             User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
+  donations Donation[]
+
+  @@index([userId])
+  @@index([bloodGroup])
+  @@index([isAvailable])
+  @@map("donor")
+}
+
+model Donation {
+  id             String         @id @default(uuid(7))
+  donorId        String
+  bloodRequestId String         @unique
+  donationDate   DateTime       @default(now())
+  status         DonationStatus @default(CONFIRMED)
+
+  isDeleted Boolean   @default(false)
+  deletedAt DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  // relations
+  donor        Donor        @relation(fields: [donorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  bloodRequest BloodRequest @relation(fields: [bloodRequestId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@index([donorId])
+  @@index([bloodRequestId])
+  @@map("donation")
 }
