@@ -5,6 +5,36 @@ const splitCsv = (value) => (value || "")
     .map((item) => item.trim())
     .filter(Boolean);
 const defaultDevOrigins = ["http://localhost:3000", "http://localhost:5000"];
+const isProduction = process.env.ENV_MODE === 'production' || process.env.NODE_ENV === 'production';
+const requiredInProduction = [
+    'DATABASE_URL',
+    'BETTER_AUTH_SECRET',
+    'BETTER_AUTH_URL',
+    'JWT_SECRET',
+    'ACCESS_TOKEN_SECRET',
+    'REFRESH_TOKEN_SECRET',
+    'GOOGLE_CLIENT_ID',
+    'GOOGLE_CLIENT_SECRET',
+    'GOOGLE_CALLBACK_URL',
+    'EMAIL_SENDER_SMTP_USER',
+    'EMAIL_SENDER_SMTP_PASSWORD',
+    'EMAIL_SENDER_SMTP_HOST',
+    'EMAIL_SENDER_SMTP_PORT',
+    'CLOUDINARY_CLOUD_NAME',
+    'CLOUDINARY_API_KEY',
+    'CLOUDINARY_API_SECRET',
+    'SUPER_ADMIN_NAME',
+    'SUPER_ADMIN_EMAIL',
+    'SUPER_ADMIN_PASSWORD',
+    'SUPER_ADMIN_PHONE',
+    'SUPER_ADMIN_PROFILE_PHOTO_URL',
+];
+if (isProduction) {
+    const missing = requiredInProduction.filter((key) => !process.env[key]);
+    if (missing.length > 0) {
+        throw new Error(`Missing required production environment variables: ${missing.join(', ')}`);
+    }
+}
 export const envVar = {
     ENV_MODE: process.env.ENV_MODE || 'development',
     NODE_ENV: process.env.NODE_ENV || 'development',
@@ -19,7 +49,10 @@ export const envVar = {
     REFRESH_TOKEN_EXPIRES_IN: Number(process.env.REFRESH_TOKEN_EXPIRES_IN || 60 * 60 * 24 * 30), // 30 days
     BETTER_AUTH_SESSION_TOKEN_EXPIRES_IN: Number(process.env.BETTER_AUTH_SESSION_TOKEN_EXPIRES_IN || 60 * 60 * 24 * 7), // 7 days
     // better-auth config
-    BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET || '',
+    BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET ||
+        process.env.AUTH_SECRET ||
+        process.env.JWT_SECRET ||
+        '',
     // BETTER_AUTH_EXPIRES_IN: process.env.BETTER_AUTH_EXPIRES_IN || '7d',
     // BETTER_AUTH_UPDATE_AGE: process.env.BETTER_AUTH_UPDATE_AGE || '1d',
     BETTER_AUTH_EXPIRES_IN: 60 * 60 * 24 * 7, // 7 days in seconds

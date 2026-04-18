@@ -17,6 +17,9 @@ const trustedOrigins = isProduction
             ...envVar.DEFAULT_DEV_ORIGINS,
         ]),
     ];
+if (!envVar.BETTER_AUTH_SECRET) {
+    throw new Error("Missing Better Auth secret. Set BETTER_AUTH_SECRET (or AUTH_SECRET/JWT_SECRET) in your environment variables.");
+}
 export const auth = betterAuth({
     baseURL: envVar.BETTER_AUTH_URL,
     secret: envVar.BETTER_AUTH_SECRET,
